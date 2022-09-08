@@ -1,11 +1,29 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
-inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
-runs:
-  using: 'node16'
-  main: 'dist/index.js'
+name: Action Test
+on:
+  pull_request:
+  push:
+
+jobs:
+  test-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Await a workflow
+        uses: ./
+        with:
+          token: ${{ github.token }}
+          workflow: sleep.yml
+          check_name: short
+          timeout_mins: 5
+          poll_interval_ms: 10000 # 10 seconds
+  test-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Await a workflow
+        uses: ./
+        with:
+          token: ${{ github.token }}
+          workflow: sleep.yml
+          timeout_mins: 5
+          poll_interval_ms: 10000 # 10 seconds
