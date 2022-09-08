@@ -1,17 +1,18 @@
 {
-  "name": "typescript-action",
+  "name": "upload-sourcemaps-raygun",
   "version": "0.0.0",
   "private": true,
   "description": "TypeScript template action",
   "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
-    "format": "prettier --write '**/*.ts'",
-    "format-check": "prettier --check '**/*.ts'",
-    "lint": "eslint src/**/*.ts",
-    "package": "ncc build --source-map --license licenses.txt",
-    "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
+    "build:bundle": "npm run build:types && node ./esbuild.config.mjs",
+    "build:types": "tsc",
+    "format:check": "prettier --check **/*.ts",
+    "format:write": "npm run format:check -- --write",
+    "lint": "eslint --ext \".js,.ts\" .",
+    "lint:fix": "npm run lint -- --fix",
+    "release": "release-it",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
