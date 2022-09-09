@@ -9,24 +9,18 @@ describe("Action", () => {
     beforeEach(() => {
       mockEnvConfig = {
         token: "secret",
-        workflow: "test workflow",
-        checkName: "test check",
-        timeout_mins: "15",
-        poll_interval_ms: "5000",
+        base_url: "https://www.test.com",
+        folder: "./woo/test",
       };
 
       jest.spyOn(core, "getInput").mockImplementation((input: string) => {
         switch (input) {
           case "token":
             return mockEnvConfig.token;
-          case "workflow":
-            return mockEnvConfig.workflow;
-          case "check_name":
-            return mockEnvConfig.checkName;
-          case "timeout_mins":
-            return mockEnvConfig.timeout_mins;
-          case "poll_interval_ms":
-            return mockEnvConfig.poll_interval_ms;
+          case "base_url":
+            return mockEnvConfig.base_url;
+          case "folder":
+            return mockEnvConfig.folder;
           default:
             throw new Error("invalid input requested");
         }
@@ -42,31 +36,17 @@ describe("Action", () => {
 
       // Assert that the numbers / types have been properly loaded.
       expect(config.token).toStrictEqual("secret");
-      expect(config.workflow).toStrictEqual("test workflow");
-      expect(config.checkName).toStrictEqual("test check");
-      expect(config.timeoutMins).toStrictEqual(15);
-      expect(config.pollIntervalMs).toStrictEqual(5000);
+      expect(config.base_url).toStrictEqual("https://www.test.com");
+      expect(config.folder).toStrictEqual("./woo/test");
     });
 
-    it("should provide a default run timeout if none is supplied", () => {
-      mockEnvConfig.run_timeout_seconds = "";
+    it("should provide a default folder if none is supplied", () => {
+      mockEnvConfig.folder = "";
       const config: ActionConfig = getConfig();
 
-      expect(config.timeoutMins).toStrictEqual(15);
+      expect(config.folder).toStrictEqual('./');
     });
 
-    it("should provide a default polling interval if none is supplied", () => {
-      mockEnvConfig.poll_interval_ms = "";
-      const config: ActionConfig = getConfig();
 
-      expect(config.pollIntervalMs).toStrictEqual(15000);
-    });
-
-    it("should throw if it cannot parse a string into a number", () => {
-      mockEnvConfig.poll_interval_ms = "hello";
-      expect(() => getConfig()).toThrowError(
-        `Unable to parse value: ${mockEnvConfig.poll_interval_ms}`
-      );
-    });
   });
 });
