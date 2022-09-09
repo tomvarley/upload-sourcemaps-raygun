@@ -44,9 +44,7 @@ describe("Action", () => {
       mockEnvConfig.folder = "";
       const config: ActionConfig = getConfig();
 
-      expect(config.folder).toStrictEqual('./');
+      expect(config.folder).toStrictEqual("./");
     });
-
-
   });
 });

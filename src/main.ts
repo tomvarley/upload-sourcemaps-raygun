@@ -1,34 +1,20 @@
+import { opendir } from "fs/promises";
 import * as core from "@actions/core";
 import { Duration } from "luxon";
 import { getConfig } from "./action";
-import {
-  init,
-} from "./api";
-import { opendir } from "fs/promises";
-
-const INITIAL_WAIT_MS = 10 * 1000; // 10 seconds
+import { init } from "./api";
 
 async function run(): Promise<void> {
   try {
     const config = getConfig();
-    const startTime = Date.now();
     init(config);
 
-
-    core.info(
-      `Sending sourcemap files to Raygun...`
-    );
-
-    let workflowRunId: number | undefined;
-    let checkSuiteId: number | undefined;
-    let checkRunId: number | undefined;
-    let checkRunStatus: () => Promise<boolean> | undefined;
+    core.info(`Sending sourcemap files to Raygun...`);
 
 
     try {
       const dir = await opendir(config.folder!);
-      for await (const dirent of dir)
-        console.log(dirent.name);
+      for await (const dirent of dir) console.log(dirent.name);
     } catch (err) {
       console.error(err);
     }

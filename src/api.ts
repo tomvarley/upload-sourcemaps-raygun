@@ -12,4 +12,3 @@ export function init(cfg?: ActionConfig): void {
   config = cfg || getConfig();
   octokit = github.getOctokit(config.token);
 }
-

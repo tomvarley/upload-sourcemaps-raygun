@@ -1,6 +1,5 @@
 import * as core from "@actions/core";
 
-
 /**
  * action.yaml definition.
  */
@@ -19,7 +18,6 @@ export interface ActionConfig {
    * A specific check within the workflow to wait for. Await all checks if this is not specified.
    */
   folder?: string;
-
 }
 
 export function getConfig(): ActionConfig {
@@ -29,7 +27,7 @@ export function getConfig(): ActionConfig {
     folder: (() => {
       const input = core.getInput("folder");
       return input === "" ? "./" : input;
-    })()
+    })(),
   };
 }
 
