@@ -1,0 +1,16 @@
+name: Action Test
+on:
+  pull_request:
+  push:
+
+jobs:
+  test-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Send things
+        uses: ./
+        with:
+          token: asdasd
+          base_url: https://www.woo.com
+

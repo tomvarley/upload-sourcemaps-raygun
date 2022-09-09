@@ -1,11 +1,19 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: Upload Sourcemaps to Raygun
+description: Upload generated sourcemaps to Raygun
+author: Tom Varley
+branding:
+  icon: activity
+  color: gray-dark
 inputs:
-  milliseconds: # change this
+  token:
+    description: Raygun external access token to allow sending of sourcemaps
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  base_url:
+    required: true
+    description: The filename of the workflow that you wish to await completion of.
+  folder:
+    description: Target folder to check for sourcemaps
+    default: './'
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: node16
+  main: dist/index.js

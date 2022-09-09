@@ -1,24 +1,41 @@
-name: 'build-test'
-on: # rebuild any PRs and main branch changes
+name: Build
+on:
   pull_request:
   push:
-    branches:
-      - main
-      - 'releases/*'
 
 jobs:
-  build: # make sure build/ci work properly
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-          npm install
-      - run: |
-          npm run all
-  test: # make sure the action works on a clean machine without building
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - name: build
+        run: npm run build:types
+      - name: test
+        id: test
+        if: ${{ always() }}
+        run: npm run test
+      - name: lint
+        if: ${{ always() }}
+        run: npm run lint
+      - name: style
+        if: ${{ always() }}
+        run: npm run format:check
+  codecov: # Send only a single coverage report per run
+    needs: [build]
+    timeout-minutes: 15
+    env:
+      CI: true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./
+      - uses: actions/checkout@v3
+      - name: Use Node.js lts
+        uses: actions/setup-node@v3
         with:
-          milliseconds: 1000
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - name: test
+        run: npm run test -- --coverage
+      - name: codecov
+        uses: codecov/codecov-action@v3
