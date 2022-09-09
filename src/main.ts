@@ -1,6 +1,5 @@
 import { opendir } from "fs/promises";
 import * as core from "@actions/core";
-import { Duration } from "luxon";
 import { getConfig } from "./action";
 import { init } from "./api";
 
@@ -10,7 +9,6 @@ async function run(): Promise<void> {
     init(config);
 
     core.info(`Sending sourcemap files to Raygun...`);
-
 
     try {
       const dir = await opendir(config.folder!);
