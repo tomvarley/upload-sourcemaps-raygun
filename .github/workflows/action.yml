@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Send things
-        uses: ../action.yml
+        uses: ../../action.yml
         with:
           token: asdasd
           base_url: https://www.woo.com
