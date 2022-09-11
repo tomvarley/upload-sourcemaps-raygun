@@ -12849,11 +12849,12 @@ async function run() {
         {
           method: "POST",
           headers: {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data; boundary=------------------------1ebbf81e329dd695"
           },
           body: formData
         }
       );
+      core2.info("Response:" + res);
       if (!res.ok) {
         throw new Error(
           `Sending failed with response: [${res.status}] ${res.statusText}`

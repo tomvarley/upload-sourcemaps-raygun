@@ -37,11 +37,14 @@ async function run(): Promise<void> {
         {
           method: "POST",
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type":
+              "multipart/form-data; boundary=------------------------1ebbf81e329dd695",
           },
           body: formData,
         }
       );
+
+      core.info("Response:" + res);
 
       if (!res.ok) {
         throw new Error(
