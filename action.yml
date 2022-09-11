@@ -11,6 +11,9 @@ inputs:
   base_url:
     required: true
     description: The base url of the sourcemap you would like to associate the file with
+  project_id:
+    required: true
+    description:
   folder:
     description: Target folder to check for sourcemaps
     default: './'

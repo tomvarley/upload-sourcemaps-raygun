@@ -15,12 +15,12 @@ export interface ActionConfig {
   base_url: string;
 
   /**
-   * Project id in raygun to upload sourcemaps to
+   * Project id in raygun to upload sourcemaps
    */
   project_id: string;
 
   /**
-   * Folder to recursively look for sourcemaps in
+   * Folder to recursively look for sourcemaps
    */
   folder?: string;
 }
