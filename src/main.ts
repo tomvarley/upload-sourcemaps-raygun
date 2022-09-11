@@ -3,6 +3,7 @@ import * as fs from "fs/promises";
 import * as core from "@actions/core";
 import jetpack from "fs-jetpack";
 import fetch from "node-fetch";
+import { default as FormData } from "form-data";
 import { getConfig } from "./action";
 
 async function run(): Promise<void> {
@@ -14,7 +15,7 @@ async function run(): Promise<void> {
     const sourcemaps = jetpack.find(config.folder!, { matching: "*.js.map" });
 
     for (const sourcemap of sourcemaps) {
-      const formData = new URLSearchParams();
+      const formData = new FormData();
 
       formData.append(
         "url",
@@ -37,8 +38,7 @@ async function run(): Promise<void> {
         {
           method: "POST",
           headers: {
-            "Content-Type":
-              "multipart/form-data; boundary=------------------------1ebbf81e329dd695",
+            "Content-Type": `multipart/form-data; boundary=${formData.getBoundary()}`,
           },
           body: formData,
         }
