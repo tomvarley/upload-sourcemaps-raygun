@@ -12843,7 +12843,7 @@ async function run() {
         `Calling url: https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`
       );
       const res = await fetch(
-        `https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`,
+        `https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`,
         {
           method: "POST",
           body: formData
@@ -12852,7 +12852,9 @@ async function run() {
       core2.info("Response code: " + res.status);
       core2.info("Response text: " + res.statusText);
       if (!res.ok) {
-        throw new Error(res.statusText);
+        throw new Error(
+          `Sending failed with response: [${res.status}] {$res.statusText}`
+        );
       }
     }
   } catch (error2) {

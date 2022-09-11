@@ -27,7 +27,7 @@ async function run(): Promise<void> {
       );
 
       const res = await fetch(
-        `https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`,
+        `https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`,
         {
           method: "POST",
           body: formData,
@@ -38,7 +38,9 @@ async function run(): Promise<void> {
       core.info("Response text: " + res.statusText);
 
       if (!res.ok) {
-        throw new Error(`Sending failed with response: [${res.status}] {$res.statusText}`);
+        throw new Error(
+          `Sending failed with response: [${res.status}] {$res.statusText}`
+        );
       }
     }
 
