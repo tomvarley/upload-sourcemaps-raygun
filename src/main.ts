@@ -39,7 +39,7 @@ async function run(): Promise<void> {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          body: formData,
+          body: sourcemap,
         }
       );
 
