@@ -24,7 +24,7 @@ async function run(): Promise<void> {
       const data = await fs.readFile(sourcemap, { encoding: "utf8" });
 
       // core.info("Data:" + data);
-      formData.append("file", data);
+      formData.append("file", sourcemap);
 
       core.info("Formdata:" + formData);
 
@@ -39,7 +39,7 @@ async function run(): Promise<void> {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          body: sourcemap,
+          body: formData,
         }
       );
 
