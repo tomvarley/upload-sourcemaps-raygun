@@ -1923,7 +1923,7 @@ var require_path_utils = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = void 0;
-    var path = __importStar(require("path"));
+    var path2 = __importStar(require("path"));
     function toPosixPath(pth) {
       return pth.replace(/[\\]/g, "/");
     }
@@ -1933,7 +1933,7 @@ var require_path_utils = __commonJS({
     }
     exports.toWin32Path = toWin32Path;
     function toPlatformPath(pth) {
-      return pth.replace(/[/\\]/g, path.sep);
+      return pth.replace(/[/\\]/g, path2.sep);
     }
     exports.toPlatformPath = toPlatformPath;
   }
@@ -2004,7 +2004,7 @@ var require_core = __commonJS({
     var file_command_1 = require_file_command();
     var utils_1 = require_utils();
     var os = __importStar(require("os"));
-    var path = __importStar(require("path"));
+    var path2 = __importStar(require("path"));
     var uuid_1 = require_dist();
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
@@ -2042,7 +2042,7 @@ var require_core = __commonJS({
       } else {
         command_1.issueCommand("add-path", {}, inputPath);
       }
-      process.env["PATH"] = `${inputPath}${path.delimiter}${process.env["PATH"]}`;
+      process.env["PATH"] = `${inputPath}${path2.delimiter}${process.env["PATH"]}`;
     }
     exports.addPath = addPath;
     function getInput2(name, options) {
@@ -2863,7 +2863,7 @@ var require_minimatch = __commonJS({
   "node_modules/minimatch/minimatch.js"(exports, module2) {
     module2.exports = minimatch;
     minimatch.Minimatch = Minimatch;
-    var path = function() {
+    var path2 = function() {
       try {
         return require("path");
       } catch (e) {
@@ -2871,7 +2871,7 @@ var require_minimatch = __commonJS({
     }() || {
       sep: "/"
     };
-    minimatch.sep = path.sep;
+    minimatch.sep = path2.sep;
     var GLOBSTAR = minimatch.GLOBSTAR = Minimatch.GLOBSTAR = {};
     var expand = require_brace_expansion();
     var plTypes = {
@@ -2962,8 +2962,8 @@ var require_minimatch = __commonJS({
       if (!options)
         options = {};
       pattern = pattern.trim();
-      if (!options.allowWindowsEscape && path.sep !== "/") {
-        pattern = pattern.split(path.sep).join("/");
+      if (!options.allowWindowsEscape && path2.sep !== "/") {
+        pattern = pattern.split(path2.sep).join("/");
       }
       this.options = options;
       this.set = [];
@@ -3340,8 +3340,8 @@ var require_minimatch = __commonJS({
       if (f === "/" && partial)
         return true;
       var options = this.options;
-      if (path.sep !== "/") {
-        f = f.split(path.sep).join("/");
+      if (path2.sep !== "/") {
+        f = f.split(path2.sep).join("/");
       }
       f = f.split(slashSplit);
       this.debug(this.pattern, "split", f);
@@ -3499,12 +3499,12 @@ var require_inherits = __commonJS({
 var require_path_is_absolute = __commonJS({
   "node_modules/path-is-absolute/index.js"(exports, module2) {
     "use strict";
-    function posix(path) {
-      return path.charAt(0) === "/";
+    function posix(path2) {
+      return path2.charAt(0) === "/";
     }
-    function win32(path) {
+    function win32(path2) {
       var splitDeviceRe = /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
-      var result = splitDeviceRe.exec(path);
+      var result = splitDeviceRe.exec(path2);
       var device = result[1] || "";
       var isUnc = Boolean(device && device.charAt(1) !== ":");
       return Boolean(result[2] || isUnc);
@@ -3529,7 +3529,7 @@ var require_common = __commonJS({
       return Object.prototype.hasOwnProperty.call(obj, field);
     }
     var fs = require("fs");
-    var path = require("path");
+    var path2 = require("path");
     var minimatch = require_minimatch();
     var isAbsolute = require_path_is_absolute();
     var Minimatch = minimatch.Minimatch;
@@ -3594,11 +3594,11 @@ var require_common = __commonJS({
       if (!ownProp(options, "cwd"))
         self.cwd = cwd;
       else {
-        self.cwd = path.resolve(options.cwd);
+        self.cwd = path2.resolve(options.cwd);
         self.changedCwd = self.cwd !== cwd;
       }
-      self.root = options.root || path.resolve(self.cwd, "/");
-      self.root = path.resolve(self.root);
+      self.root = options.root || path2.resolve(self.cwd, "/");
+      self.root = path2.resolve(self.root);
       if (process.platform === "win32")
         self.root = self.root.replace(/\\/g, "/");
       self.cwdAbs = isAbsolute(self.cwd) ? self.cwd : makeAbs(self, self.cwd);
@@ -3680,30 +3680,30 @@ var require_common = __commonJS({
     function makeAbs(self, f) {
       var abs = f;
       if (f.charAt(0) === "/") {
-        abs = path.join(self.root, f);
+        abs = path2.join(self.root, f);
       } else if (isAbsolute(f) || f === "") {
         abs = f;
       } else if (self.changedCwd) {
-        abs = path.resolve(self.cwd, f);
+        abs = path2.resolve(self.cwd, f);
       } else {
-        abs = path.resolve(f);
+        abs = path2.resolve(f);
       }
       if (process.platform === "win32")
         abs = abs.replace(/\\/g, "/");
       return abs;
     }
-    function isIgnored(self, path2) {
+    function isIgnored(self, path3) {
       if (!self.ignore.length)
         return false;
       return self.ignore.some(function(item) {
-        return item.matcher.match(path2) || !!(item.gmatcher && item.gmatcher.match(path2));
+        return item.matcher.match(path3) || !!(item.gmatcher && item.gmatcher.match(path3));
       });
     }
-    function childrenIgnored(self, path2) {
+    function childrenIgnored(self, path3) {
       if (!self.ignore.length)
         return false;
       return self.ignore.some(function(item) {
-        return !!(item.gmatcher && item.gmatcher.match(path2));
+        return !!(item.gmatcher && item.gmatcher.match(path3));
       });
     }
   }
@@ -3719,7 +3719,7 @@ var require_sync = __commonJS({
     var Minimatch = minimatch.Minimatch;
     var Glob = require_glob().Glob;
     var util = require("util");
-    var path = require("path");
+    var path2 = require("path");
     var assert = require("assert");
     var isAbsolute = require_path_is_absolute();
     var common = require_common();
@@ -3847,7 +3847,7 @@ var require_sync = __commonJS({
               e = prefix + e;
           }
           if (e.charAt(0) === "/" && !this.nomount) {
-            e = path.join(this.root, e);
+            e = path2.join(this.root, e);
           }
           this._emitMatch(index, e);
         }
@@ -3996,9 +3996,9 @@ var require_sync = __commonJS({
       if (prefix && isAbsolute(prefix) && !this.nomount) {
         var trail = /[\/\\]$/.test(prefix);
         if (prefix.charAt(0) === "/") {
-          prefix = path.join(this.root, prefix);
+          prefix = path2.join(this.root, prefix);
         } else {
-          prefix = path.resolve(this.root, prefix);
+          prefix = path2.resolve(this.root, prefix);
           if (trail)
             prefix += "/";
         }
@@ -4193,7 +4193,7 @@ var require_glob = __commonJS({
     var Minimatch = minimatch.Minimatch;
     var inherits = require_inherits();
     var EE = require("events").EventEmitter;
-    var path = require("path");
+    var path2 = require("path");
     var assert = require("assert");
     var isAbsolute = require_path_is_absolute();
     var globSync = require_sync();
@@ -4476,7 +4476,7 @@ var require_glob = __commonJS({
               e = prefix + e;
           }
           if (e.charAt(0) === "/" && !this.nomount) {
-            e = path.join(this.root, e);
+            e = path2.join(this.root, e);
           }
           this._emitMatch(index, e);
         }
@@ -4663,9 +4663,9 @@ var require_glob = __commonJS({
       if (prefix && isAbsolute(prefix) && !this.nomount) {
         var trail = /[\/\\]$/.test(prefix);
         if (prefix.charAt(0) === "/") {
-          prefix = path.join(this.root, prefix);
+          prefix = path2.join(this.root, prefix);
         } else {
-          prefix = path.resolve(this.root, prefix);
+          prefix = path2.resolve(this.root, prefix);
           if (trail)
             prefix += "/";
         }
@@ -4745,7 +4745,7 @@ var require_rimraf = __commonJS({
     module2.exports = rimraf;
     rimraf.sync = rimrafSync;
     var assert = require("assert");
-    var path = require("path");
+    var path2 = require("path");
     var fs = require("fs");
     var glob = void 0;
     try {
@@ -4937,7 +4937,7 @@ var require_rimraf = __commonJS({
           return options.rmdir(p, cb);
         var errState;
         files.forEach(function(f) {
-          rimraf(path.join(p, f), options, function(er2) {
+          rimraf(path2.join(p, f), options, function(er2) {
             if (errState)
               return;
             if (er2)
@@ -5014,7 +5014,7 @@ var require_rimraf = __commonJS({
       assert(p);
       assert(options);
       options.readdirSync(p).forEach(function(f) {
-        rimrafSync(path.join(p, f), options);
+        rimrafSync(path2.join(p, f), options);
       });
       var retries = isWindows ? 100 : 1;
       var i = 0;
@@ -5041,15 +5041,15 @@ var require_remove = __commonJS({
     var promisify = require_promisify();
     var promisifiedRimraf = promisify(rimraf);
     var validate = require_validate2();
-    var validateInput = (methodName, path) => {
+    var validateInput = (methodName, path2) => {
       const methodSignature = `${methodName}([path])`;
-      validate.argument(methodSignature, "path", path, ["string", "undefined"]);
+      validate.argument(methodSignature, "path", path2, ["string", "undefined"]);
     };
-    var removeSync = (path) => {
-      rimraf.sync(path, { disableGlob: true });
+    var removeSync = (path2) => {
+      rimraf.sync(path2, { disableGlob: true });
     };
-    var removeAsync = (path) => {
-      return promisifiedRimraf(path, { disableGlob: true });
+    var removeAsync = (path2) => {
+      return promisifiedRimraf(path2, { disableGlob: true });
     };
     exports.validateInput = validateInput;
     exports.sync = removeSync;
@@ -5066,9 +5066,9 @@ var require_dir = __commonJS({
     var modeUtil = require_mode();
     var validate = require_validate2();
     var remove = require_remove();
-    var validateInput = (methodName, path, criteria) => {
+    var validateInput = (methodName, path2, criteria) => {
       const methodSignature = `${methodName}(path, [criteria])`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.options(methodSignature, "criteria", criteria, {
         empty: ["boolean"],
         mode: ["string", "number"]
@@ -5084,73 +5084,73 @@ var require_dir = __commonJS({
       }
       return criteria;
     };
-    var generatePathOccupiedByNotDirectoryError = (path) => {
+    var generatePathOccupiedByNotDirectoryError = (path2) => {
       return new Error(
-        `Path ${path} exists but is not a directory. Halting jetpack.dir() call for safety reasons.`
+        `Path ${path2} exists but is not a directory. Halting jetpack.dir() call for safety reasons.`
       );
     };
-    var checkWhatAlreadyOccupiesPathSync = (path) => {
+    var checkWhatAlreadyOccupiesPathSync = (path2) => {
       let stat;
       try {
-        stat = fs.statSync(path);
+        stat = fs.statSync(path2);
       } catch (err) {
         if (err.code !== "ENOENT") {
           throw err;
         }
       }
       if (stat && !stat.isDirectory()) {
-        throw generatePathOccupiedByNotDirectoryError(path);
+        throw generatePathOccupiedByNotDirectoryError(path2);
       }
       return stat;
     };
-    var createBrandNewDirectorySync = (path, opts) => {
+    var createBrandNewDirectorySync = (path2, opts) => {
       const options = opts || {};
       try {
-        fs.mkdirSync(path, options.mode);
+        fs.mkdirSync(path2, options.mode);
       } catch (err) {
         if (err.code === "ENOENT") {
-          createBrandNewDirectorySync(pathUtil.dirname(path), options);
-          fs.mkdirSync(path, options.mode);
+          createBrandNewDirectorySync(pathUtil.dirname(path2), options);
+          fs.mkdirSync(path2, options.mode);
         } else if (err.code === "EEXIST") {
         } else {
           throw err;
         }
       }
     };
-    var checkExistingDirectoryFulfillsCriteriaSync = (path, stat, criteria) => {
+    var checkExistingDirectoryFulfillsCriteriaSync = (path2, stat, criteria) => {
       const checkMode = () => {
         const mode = modeUtil.normalizeFileMode(stat.mode);
         if (criteria.mode !== void 0 && criteria.mode !== mode) {
-          fs.chmodSync(path, criteria.mode);
+          fs.chmodSync(path2, criteria.mode);
         }
       };
       const checkEmptiness = () => {
         if (criteria.empty) {
-          const list = fs.readdirSync(path);
+          const list = fs.readdirSync(path2);
           list.forEach((filename) => {
-            remove.sync(pathUtil.resolve(path, filename));
+            remove.sync(pathUtil.resolve(path2, filename));
           });
         }
       };
       checkMode();
       checkEmptiness();
     };
-    var dirSync = (path, passedCriteria) => {
+    var dirSync = (path2, passedCriteria) => {
       const criteria = getCriteriaDefaults(passedCriteria);
-      const stat = checkWhatAlreadyOccupiesPathSync(path);
+      const stat = checkWhatAlreadyOccupiesPathSync(path2);
       if (stat) {
-        checkExistingDirectoryFulfillsCriteriaSync(path, stat, criteria);
+        checkExistingDirectoryFulfillsCriteriaSync(path2, stat, criteria);
       } else {
-        createBrandNewDirectorySync(path, criteria);
+        createBrandNewDirectorySync(path2, criteria);
       }
     };
-    var checkWhatAlreadyOccupiesPathAsync = (path) => {
+    var checkWhatAlreadyOccupiesPathAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs.stat(path).then((stat) => {
+        fs.stat(path2).then((stat) => {
           if (stat.isDirectory()) {
             resolve(stat);
           } else {
-            reject(generatePathOccupiedByNotDirectoryError(path));
+            reject(generatePathOccupiedByNotDirectoryError(path2));
           }
         }).catch((err) => {
           if (err.code === "ENOENT") {
@@ -5161,14 +5161,14 @@ var require_dir = __commonJS({
         });
       });
     };
-    var emptyAsync = (path) => {
+    var emptyAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs.readdir(path).then((list) => {
+        fs.readdir(path2).then((list) => {
           const doOne = (index) => {
             if (index === list.length) {
               resolve();
             } else {
-              const subPath = pathUtil.resolve(path, list[index]);
+              const subPath = pathUtil.resolve(path2, list[index]);
               remove.async(subPath).then(() => {
                 doOne(index + 1);
               });
@@ -5178,31 +5178,31 @@ var require_dir = __commonJS({
         }).catch(reject);
       });
     };
-    var checkExistingDirectoryFulfillsCriteriaAsync = (path, stat, criteria) => {
+    var checkExistingDirectoryFulfillsCriteriaAsync = (path2, stat, criteria) => {
       return new Promise((resolve, reject) => {
         const checkMode = () => {
           const mode = modeUtil.normalizeFileMode(stat.mode);
           if (criteria.mode !== void 0 && criteria.mode !== mode) {
-            return fs.chmod(path, criteria.mode);
+            return fs.chmod(path2, criteria.mode);
           }
           return Promise.resolve();
         };
         const checkEmptiness = () => {
           if (criteria.empty) {
-            return emptyAsync(path);
+            return emptyAsync(path2);
           }
           return Promise.resolve();
         };
         checkMode().then(checkEmptiness).then(resolve, reject);
       });
     };
-    var createBrandNewDirectoryAsync = (path, opts) => {
+    var createBrandNewDirectoryAsync = (path2, opts) => {
       const options = opts || {};
       return new Promise((resolve, reject) => {
-        fs.mkdir(path, options.mode).then(resolve).catch((err) => {
+        fs.mkdir(path2, options.mode).then(resolve).catch((err) => {
           if (err.code === "ENOENT") {
-            createBrandNewDirectoryAsync(pathUtil.dirname(path), options).then(() => {
-              return fs.mkdir(path, options.mode);
+            createBrandNewDirectoryAsync(pathUtil.dirname(path2), options).then(() => {
+              return fs.mkdir(path2, options.mode);
             }).then(resolve).catch((err2) => {
               if (err2.code === "EEXIST") {
                 resolve();
@@ -5218,18 +5218,18 @@ var require_dir = __commonJS({
         });
       });
     };
-    var dirAsync = (path, passedCriteria) => {
+    var dirAsync = (path2, passedCriteria) => {
       return new Promise((resolve, reject) => {
         const criteria = getCriteriaDefaults(passedCriteria);
-        checkWhatAlreadyOccupiesPathAsync(path).then((stat) => {
+        checkWhatAlreadyOccupiesPathAsync(path2).then((stat) => {
           if (stat !== void 0) {
             return checkExistingDirectoryFulfillsCriteriaAsync(
-              path,
+              path2,
               stat,
               criteria
             );
           }
-          return createBrandNewDirectoryAsync(path, criteria);
+          return createBrandNewDirectoryAsync(path2, criteria);
         }).then(resolve, reject);
       });
     };
@@ -5249,9 +5249,9 @@ var require_write = __commonJS({
     var fs = require_fs();
     var validate = require_validate2();
     var dir = require_dir();
-    var validateInput = (methodName, path, data, options) => {
+    var validateInput = (methodName, path2, data, options) => {
       const methodSignature = `${methodName}(path, data, [options])`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.argument(methodSignature, "data", data, [
         "string",
         "buffer",
@@ -5275,37 +5275,37 @@ var require_write = __commonJS({
       }
       return data;
     };
-    var writeFileSync = (path, data, options) => {
+    var writeFileSync = (path2, data, options) => {
       try {
-        fs.writeFileSync(path, data, options);
+        fs.writeFileSync(path2, data, options);
       } catch (err) {
         if (err.code === "ENOENT") {
-          dir.createSync(pathUtil.dirname(path));
-          fs.writeFileSync(path, data, options);
+          dir.createSync(pathUtil.dirname(path2));
+          fs.writeFileSync(path2, data, options);
         } else {
           throw err;
         }
       }
     };
-    var writeAtomicSync = (path, data, options) => {
-      writeFileSync(path + newExt, data, options);
-      fs.renameSync(path + newExt, path);
+    var writeAtomicSync = (path2, data, options) => {
+      writeFileSync(path2 + newExt, data, options);
+      fs.renameSync(path2 + newExt, path2);
     };
-    var writeSync = (path, data, options) => {
+    var writeSync = (path2, data, options) => {
       const opts = options || {};
       const processedData = serializeToJsonMaybe(data, opts.jsonIndent);
       let writeStrategy = writeFileSync;
       if (opts.atomic) {
         writeStrategy = writeAtomicSync;
       }
-      writeStrategy(path, processedData, { mode: opts.mode });
+      writeStrategy(path2, processedData, { mode: opts.mode });
     };
-    var writeFileAsync = (path, data, options) => {
+    var writeFileAsync = (path2, data, options) => {
       return new Promise((resolve, reject) => {
-        fs.writeFile(path, data, options).then(resolve).catch((err) => {
+        fs.writeFile(path2, data, options).then(resolve).catch((err) => {
           if (err.code === "ENOENT") {
-            dir.createAsync(pathUtil.dirname(path)).then(() => {
-              return fs.writeFile(path, data, options);
+            dir.createAsync(pathUtil.dirname(path2)).then(() => {
+              return fs.writeFile(path2, data, options);
             }).then(resolve, reject);
           } else {
             reject(err);
@@ -5313,21 +5313,21 @@ var require_write = __commonJS({
         });
       });
     };
-    var writeAtomicAsync = (path, data, options) => {
+    var writeAtomicAsync = (path2, data, options) => {
       return new Promise((resolve, reject) => {
-        writeFileAsync(path + newExt, data, options).then(() => {
-          return fs.rename(path + newExt, path);
+        writeFileAsync(path2 + newExt, data, options).then(() => {
+          return fs.rename(path2 + newExt, path2);
         }).then(resolve, reject);
       });
     };
-    var writeAsync = (path, data, options) => {
+    var writeAsync = (path2, data, options) => {
       const opts = options || {};
       const processedData = serializeToJsonMaybe(data, opts.jsonIndent);
       let writeStrategy = writeFileAsync;
       if (opts.atomic) {
         writeStrategy = writeAtomicAsync;
       }
-      return writeStrategy(path, processedData, { mode: opts.mode });
+      return writeStrategy(path2, processedData, { mode: opts.mode });
     };
     exports.validateInput = validateInput;
     exports.sync = writeSync;
@@ -5342,30 +5342,30 @@ var require_append = __commonJS({
     var fs = require_fs();
     var write = require_write();
     var validate = require_validate2();
-    var validateInput = (methodName, path, data, options) => {
+    var validateInput = (methodName, path2, data, options) => {
       const methodSignature = `${methodName}(path, data, [options])`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.argument(methodSignature, "data", data, ["string", "buffer"]);
       validate.options(methodSignature, "options", options, {
         mode: ["string", "number"]
       });
     };
-    var appendSync = (path, data, options) => {
+    var appendSync = (path2, data, options) => {
       try {
-        fs.appendFileSync(path, data, options);
+        fs.appendFileSync(path2, data, options);
       } catch (err) {
         if (err.code === "ENOENT") {
-          write.sync(path, data, options);
+          write.sync(path2, data, options);
         } else {
           throw err;
         }
       }
     };
-    var appendAsync = (path, data, options) => {
+    var appendAsync = (path2, data, options) => {
       return new Promise((resolve, reject) => {
-        fs.appendFile(path, data, options).then(resolve).catch((err) => {
+        fs.appendFile(path2, data, options).then(resolve).catch((err) => {
           if (err.code === "ENOENT") {
-            write.async(path, data, options).then(resolve, reject);
+            write.async(path2, data, options).then(resolve, reject);
           } else {
             reject(err);
           }
@@ -5386,9 +5386,9 @@ var require_file = __commonJS({
     var modeUtil = require_mode();
     var validate = require_validate2();
     var write = require_write();
-    var validateInput = (methodName, path, criteria) => {
+    var validateInput = (methodName, path2, criteria) => {
       const methodSignature = `${methodName}(path, [criteria])`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.options(methodSignature, "criteria", criteria, {
         content: ["string", "buffer", "object", "array"],
         jsonIndent: ["number"],
@@ -5402,30 +5402,30 @@ var require_file = __commonJS({
       }
       return criteria;
     };
-    var generatePathOccupiedByNotFileError = (path) => {
+    var generatePathOccupiedByNotFileError = (path2) => {
       return new Error(
-        `Path ${path} exists but is not a file. Halting jetpack.file() call for safety reasons.`
+        `Path ${path2} exists but is not a file. Halting jetpack.file() call for safety reasons.`
       );
     };
-    var checkWhatAlreadyOccupiesPathSync = (path) => {
+    var checkWhatAlreadyOccupiesPathSync = (path2) => {
       let stat;
       try {
-        stat = fs.statSync(path);
+        stat = fs.statSync(path2);
       } catch (err) {
         if (err.code !== "ENOENT") {
           throw err;
         }
       }
       if (stat && !stat.isFile()) {
-        throw generatePathOccupiedByNotFileError(path);
+        throw generatePathOccupiedByNotFileError(path2);
       }
       return stat;
     };
-    var checkExistingFileFulfillsCriteriaSync = (path, stat, criteria) => {
+    var checkExistingFileFulfillsCriteriaSync = (path2, stat, criteria) => {
       const mode = modeUtil.normalizeFileMode(stat.mode);
       const checkContent = () => {
         if (criteria.content !== void 0) {
-          write.sync(path, criteria.content, {
+          write.sync(path2, criteria.content, {
             mode,
             jsonIndent: criteria.jsonIndent
           });
@@ -5435,7 +5435,7 @@ var require_file = __commonJS({
       };
       const checkMode = () => {
         if (criteria.mode !== void 0 && criteria.mode !== mode) {
-          fs.chmodSync(path, criteria.mode);
+          fs.chmodSync(path2, criteria.mode);
         }
       };
       const contentReplaced = checkContent();
@@ -5443,32 +5443,32 @@ var require_file = __commonJS({
         checkMode();
       }
     };
-    var createBrandNewFileSync = (path, criteria) => {
+    var createBrandNewFileSync = (path2, criteria) => {
       let content = "";
       if (criteria.content !== void 0) {
         content = criteria.content;
       }
-      write.sync(path, content, {
+      write.sync(path2, content, {
         mode: criteria.mode,
         jsonIndent: criteria.jsonIndent
       });
     };
-    var fileSync = (path, passedCriteria) => {
+    var fileSync = (path2, passedCriteria) => {
       const criteria = getCriteriaDefaults(passedCriteria);
-      const stat = checkWhatAlreadyOccupiesPathSync(path);
+      const stat = checkWhatAlreadyOccupiesPathSync(path2);
       if (stat !== void 0) {
-        checkExistingFileFulfillsCriteriaSync(path, stat, criteria);
+        checkExistingFileFulfillsCriteriaSync(path2, stat, criteria);
       } else {
-        createBrandNewFileSync(path, criteria);
+        createBrandNewFileSync(path2, criteria);
       }
     };
-    var checkWhatAlreadyOccupiesPathAsync = (path) => {
+    var checkWhatAlreadyOccupiesPathAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs.stat(path).then((stat) => {
+        fs.stat(path2).then((stat) => {
           if (stat.isFile()) {
             resolve(stat);
           } else {
-            reject(generatePathOccupiedByNotFileError(path));
+            reject(generatePathOccupiedByNotFileError(path2));
           }
         }).catch((err) => {
           if (err.code === "ENOENT") {
@@ -5479,12 +5479,12 @@ var require_file = __commonJS({
         });
       });
     };
-    var checkExistingFileFulfillsCriteriaAsync = (path, stat, criteria) => {
+    var checkExistingFileFulfillsCriteriaAsync = (path2, stat, criteria) => {
       const mode = modeUtil.normalizeFileMode(stat.mode);
       const checkContent = () => {
         return new Promise((resolve, reject) => {
           if (criteria.content !== void 0) {
-            write.async(path, criteria.content, {
+            write.async(path2, criteria.content, {
               mode,
               jsonIndent: criteria.jsonIndent
             }).then(() => {
@@ -5497,7 +5497,7 @@ var require_file = __commonJS({
       };
       const checkMode = () => {
         if (criteria.mode !== void 0 && criteria.mode !== mode) {
-          return fs.chmod(path, criteria.mode);
+          return fs.chmod(path2, criteria.mode);
         }
         return void 0;
       };
@@ -5508,24 +5508,24 @@ var require_file = __commonJS({
         return void 0;
       });
     };
-    var createBrandNewFileAsync = (path, criteria) => {
+    var createBrandNewFileAsync = (path2, criteria) => {
       let content = "";
       if (criteria.content !== void 0) {
         content = criteria.content;
       }
-      return write.async(path, content, {
+      return write.async(path2, content, {
         mode: criteria.mode,
         jsonIndent: criteria.jsonIndent
       });
     };
-    var fileAsync = (path, passedCriteria) => {
+    var fileAsync = (path2, passedCriteria) => {
       return new Promise((resolve, reject) => {
         const criteria = getCriteriaDefaults(passedCriteria);
-        checkWhatAlreadyOccupiesPathAsync(path).then((stat) => {
+        checkWhatAlreadyOccupiesPathAsync(path2).then((stat) => {
           if (stat !== void 0) {
-            return checkExistingFileFulfillsCriteriaAsync(path, stat, criteria);
+            return checkExistingFileFulfillsCriteriaAsync(path2, stat, criteria);
           }
-          return createBrandNewFileAsync(path, criteria);
+          return createBrandNewFileAsync(path2, criteria);
         }).then(resolve, reject);
       });
     };
@@ -5545,9 +5545,9 @@ var require_inspect = __commonJS({
     var validate = require_validate2();
     var supportedChecksumAlgorithms = ["md5", "sha1", "sha256", "sha512"];
     var symlinkOptions = ["report", "follow"];
-    var validateInput = (methodName, path, options) => {
+    var validateInput = (methodName, path2, options) => {
       const methodSignature = `${methodName}(path, [options])`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.options(methodSignature, "options", options, {
         checksum: ["string"],
         mode: ["boolean"],
@@ -5570,9 +5570,9 @@ var require_inspect = __commonJS({
         );
       }
     };
-    var createInspectObj = (path, options, stat) => {
+    var createInspectObj = (path2, options, stat) => {
       const obj = {};
-      obj.name = pathUtil.basename(path);
+      obj.name = pathUtil.basename(path2);
       if (stat.isFile()) {
         obj.type = "file";
         obj.size = stat.size;
@@ -5592,24 +5592,24 @@ var require_inspect = __commonJS({
         obj.changeTime = stat.ctime;
       }
       if (options.absolutePath) {
-        obj.absolutePath = path;
+        obj.absolutePath = path2;
       }
       return obj;
     };
-    var fileChecksum = (path, algo) => {
+    var fileChecksum = (path2, algo) => {
       const hash = crypto.createHash(algo);
-      const data = fs.readFileSync(path);
+      const data = fs.readFileSync(path2);
       hash.update(data);
       return hash.digest("hex");
     };
-    var addExtraFieldsSync = (path, inspectObj, options) => {
+    var addExtraFieldsSync = (path2, inspectObj, options) => {
       if (inspectObj.type === "file" && options.checksum) {
-        inspectObj[options.checksum] = fileChecksum(path, options.checksum);
+        inspectObj[options.checksum] = fileChecksum(path2, options.checksum);
       } else if (inspectObj.type === "symlink") {
-        inspectObj.pointsAt = fs.readlinkSync(path);
+        inspectObj.pointsAt = fs.readlinkSync(path2);
       }
     };
-    var inspectSync = (path, options) => {
+    var inspectSync = (path2, options) => {
       let statOperation = fs.lstatSync;
       let stat;
       const opts = options || {};
@@ -5617,21 +5617,21 @@ var require_inspect = __commonJS({
         statOperation = fs.statSync;
       }
       try {
-        stat = statOperation(path);
+        stat = statOperation(path2);
       } catch (err) {
         if (err.code === "ENOENT") {
           return void 0;
         }
         throw err;
       }
-      const inspectObj = createInspectObj(path, opts, stat);
-      addExtraFieldsSync(path, inspectObj, opts);
+      const inspectObj = createInspectObj(path2, opts, stat);
+      addExtraFieldsSync(path2, inspectObj, opts);
       return inspectObj;
     };
-    var fileChecksumAsync = (path, algo) => {
+    var fileChecksumAsync = (path2, algo) => {
       return new Promise((resolve, reject) => {
         const hash = crypto.createHash(algo);
-        const s = fs.createReadStream(path);
+        const s = fs.createReadStream(path2);
         s.on("data", (data) => {
           hash.update(data);
         });
@@ -5641,30 +5641,30 @@ var require_inspect = __commonJS({
         s.on("error", reject);
       });
     };
-    var addExtraFieldsAsync = (path, inspectObj, options) => {
+    var addExtraFieldsAsync = (path2, inspectObj, options) => {
       if (inspectObj.type === "file" && options.checksum) {
-        return fileChecksumAsync(path, options.checksum).then((checksum) => {
+        return fileChecksumAsync(path2, options.checksum).then((checksum) => {
           inspectObj[options.checksum] = checksum;
           return inspectObj;
         });
       } else if (inspectObj.type === "symlink") {
-        return fs.readlink(path).then((linkPath) => {
+        return fs.readlink(path2).then((linkPath) => {
           inspectObj.pointsAt = linkPath;
           return inspectObj;
         });
       }
       return Promise.resolve(inspectObj);
     };
-    var inspectAsync = (path, options) => {
+    var inspectAsync = (path2, options) => {
       return new Promise((resolve, reject) => {
         let statOperation = fs.lstat;
         const opts = options || {};
         if (opts.symlinks === "follow") {
           statOperation = fs.stat;
         }
-        statOperation(path).then((stat) => {
-          const inspectObj = createInspectObj(path, opts, stat);
-          addExtraFieldsAsync(path, inspectObj, opts).then(resolve, reject);
+        statOperation(path2).then((stat) => {
+          const inspectObj = createInspectObj(path2, opts, stat);
+          addExtraFieldsAsync(path2, inspectObj, opts).then(resolve, reject);
         }).catch((err) => {
           if (err.code === "ENOENT") {
             resolve(void 0);
@@ -5688,13 +5688,13 @@ var require_list = __commonJS({
     "use strict";
     var fs = require_fs();
     var validate = require_validate2();
-    var validateInput = (methodName, path) => {
+    var validateInput = (methodName, path2) => {
       const methodSignature = `${methodName}(path)`;
-      validate.argument(methodSignature, "path", path, ["string", "undefined"]);
+      validate.argument(methodSignature, "path", path2, ["string", "undefined"]);
     };
-    var listSync = (path) => {
+    var listSync = (path2) => {
       try {
-        return fs.readdirSync(path);
+        return fs.readdirSync(path2);
       } catch (err) {
         if (err.code === "ENOENT") {
           return void 0;
@@ -5702,9 +5702,9 @@ var require_list = __commonJS({
         throw err;
       }
     };
-    var listAsync = (path) => {
+    var listAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs.readdir(path).then((list) => {
+        fs.readdir(path2).then((list) => {
           resolve(list);
         }).catch((err) => {
           if (err.code === "ENOENT") {
@@ -5741,7 +5741,7 @@ var require_tree_walker = __commonJS({
       }
       return "other";
     };
-    var initialWalkSync = (path, options, callback) => {
+    var initialWalkSync = (path2, options, callback) => {
       if (options.maxLevelsDeep === void 0) {
         options.maxLevelsDeep = Infinity;
       }
@@ -5753,14 +5753,14 @@ var require_tree_walker = __commonJS({
           options.inspectOptions.symlinks = options.symlinks;
         }
       }
-      const walkSync = (path2, currentLevel) => {
-        fs.readdirSync(path2, { withFileTypes: true }).forEach((direntItem) => {
+      const walkSync = (path3, currentLevel) => {
+        fs.readdirSync(path3, { withFileTypes: true }).forEach((direntItem) => {
           const withFileTypesNotSupported = typeof direntItem === "string";
           let fileItemPath;
           if (withFileTypesNotSupported) {
-            fileItemPath = pathUtil.join(path2, direntItem);
+            fileItemPath = pathUtil.join(path3, direntItem);
           } else {
-            fileItemPath = pathUtil.join(path2, direntItem.name);
+            fileItemPath = pathUtil.join(path3, direntItem.name);
           }
           let fileItem;
           if (performInspectOnEachNode) {
@@ -5788,22 +5788,22 @@ var require_tree_walker = __commonJS({
           }
         });
       };
-      const item = inspect.sync(path, options.inspectOptions);
+      const item = inspect.sync(path2, options.inspectOptions);
       if (item) {
         if (performInspectOnEachNode) {
-          callback(path, item);
+          callback(path2, item);
         } else {
-          callback(path, { name: item.name, type: item.type });
+          callback(path2, { name: item.name, type: item.type });
         }
         if (item.type === "dir") {
-          walkSync(path, 1);
+          walkSync(path2, 1);
         }
       } else {
-        callback(path, void 0);
+        callback(path2, void 0);
       }
     };
     var maxConcurrentOperations = 5;
-    var initialWalkAsync = (path, options, callback, doneCallback) => {
+    var initialWalkAsync = (path2, options, callback, doneCallback) => {
       if (options.maxLevelsDeep === void 0) {
         options.maxLevelsDeep = Infinity;
       }
@@ -5834,14 +5834,14 @@ var require_tree_walker = __commonJS({
         nowDoingConcurrentOperations -= 1;
         checkConcurrentOperations();
       };
-      const walkAsync = (path2, currentLevel) => {
+      const walkAsync = (path3, currentLevel) => {
         const goDeeperIfDir = (fileItemPath, fileItem) => {
           if (fileItem.type === "dir" && currentLevel < options.maxLevelsDeep) {
             walkAsync(fileItemPath, currentLevel + 1);
           }
         };
         whenConcurrencySlotAvailable(() => {
-          fs.readdir(path2, { withFileTypes: true }, (err, files) => {
+          fs.readdir(path3, { withFileTypes: true }, (err, files) => {
             if (err) {
               doneCallback(err);
             } else {
@@ -5849,9 +5849,9 @@ var require_tree_walker = __commonJS({
                 const withFileTypesNotSupported = typeof direntItem === "string";
                 let fileItemPath;
                 if (withFileTypesNotSupported) {
-                  fileItemPath = pathUtil.join(path2, direntItem);
+                  fileItemPath = pathUtil.join(path3, direntItem);
                 } else {
-                  fileItemPath = pathUtil.join(path2, direntItem.name);
+                  fileItemPath = pathUtil.join(path3, direntItem.name);
                 }
                 if (performInspectOnEachNode || withFileTypesNotSupported) {
                   whenConcurrencySlotAvailable(() => {
@@ -5902,20 +5902,20 @@ var require_tree_walker = __commonJS({
           });
         });
       };
-      inspect.async(path, options.inspectOptions).then((item) => {
+      inspect.async(path2, options.inspectOptions).then((item) => {
         if (item) {
           if (performInspectOnEachNode) {
-            callback(path, item);
+            callback(path2, item);
           } else {
-            callback(path, { name: item.name, type: item.type });
+            callback(path2, { name: item.name, type: item.type });
           }
           if (item.type === "dir") {
-            walkAsync(path, 1);
+            walkAsync(path2, 1);
           } else {
             doneCallback();
           }
         } else {
-          callback(path, void 0);
+          callback(path2, void 0);
           doneCallback();
         }
       }).catch((err) => {
@@ -6004,9 +6004,9 @@ var require_find = __commonJS({
     var inspect = require_inspect();
     var matcher = require_matcher();
     var validate = require_validate2();
-    var validateInput = (methodName, path, options) => {
+    var validateInput = (methodName, path2, options) => {
       const methodSignature = `${methodName}([path], options)`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.options(methodSignature, "options", options, {
         matching: ["string", "array of string"],
         filter: ["function"],
@@ -6036,26 +6036,26 @@ var require_find = __commonJS({
       return opts;
     };
     var processFoundPaths = (foundPaths, cwd) => {
-      return foundPaths.map((path) => {
-        return pathUtil.relative(cwd, path);
+      return foundPaths.map((path2) => {
+        return pathUtil.relative(cwd, path2);
       });
     };
-    var generatePathDoesntExistError = (path) => {
-      const err = new Error(`Path you want to find stuff in doesn't exist ${path}`);
+    var generatePathDoesntExistError = (path2) => {
+      const err = new Error(`Path you want to find stuff in doesn't exist ${path2}`);
       err.code = "ENOENT";
       return err;
     };
-    var generatePathNotDirectoryError = (path) => {
+    var generatePathNotDirectoryError = (path2) => {
       const err = new Error(
-        `Path you want to find stuff in must be a directory ${path}`
+        `Path you want to find stuff in must be a directory ${path2}`
       );
       err.code = "ENOTDIR";
       return err;
     };
-    var findSync = (path, options) => {
+    var findSync = (path2, options) => {
       const foundAbsolutePaths = [];
       const matchesAnyOfGlobs = matcher.create(
-        path,
+        path2,
         options.matching,
         options.ignoreCase
       );
@@ -6064,10 +6064,10 @@ var require_find = __commonJS({
         maxLevelsDeep = 1;
       }
       treeWalker.sync(
-        path,
+        path2,
         { maxLevelsDeep, symlinks: "follow", inspectOptions: { times: true } },
         (itemPath, item) => {
-          if (item && itemPath !== path && matchesAnyOfGlobs(itemPath)) {
+          if (item && itemPath !== path2 && matchesAnyOfGlobs(itemPath)) {
             const weHaveMatch = item.type === "file" && options.files === true || item.type === "dir" && options.directories === true;
             if (weHaveMatch) {
               if (options.filter) {
@@ -6085,20 +6085,20 @@ var require_find = __commonJS({
       foundAbsolutePaths.sort();
       return processFoundPaths(foundAbsolutePaths, options.cwd);
     };
-    var findSyncInit = (path, options) => {
-      const entryPointInspect = inspect.sync(path, { symlinks: "follow" });
+    var findSyncInit = (path2, options) => {
+      const entryPointInspect = inspect.sync(path2, { symlinks: "follow" });
       if (entryPointInspect === void 0) {
-        throw generatePathDoesntExistError(path);
+        throw generatePathDoesntExistError(path2);
       } else if (entryPointInspect.type !== "dir") {
-        throw generatePathNotDirectoryError(path);
+        throw generatePathNotDirectoryError(path2);
       }
-      return findSync(path, normalizeOptions(options));
+      return findSync(path2, normalizeOptions(options));
     };
-    var findAsync = (path, options) => {
+    var findAsync = (path2, options) => {
       return new Promise((resolve, reject) => {
         const foundAbsolutePaths = [];
         const matchesAnyOfGlobs = matcher.create(
-          path,
+          path2,
           options.matching,
           options.ignoreCase
         );
@@ -6115,10 +6115,10 @@ var require_find = __commonJS({
           }
         };
         treeWalker.async(
-          path,
+          path2,
           { maxLevelsDeep, symlinks: "follow", inspectOptions: { times: true } },
           (itemPath, item) => {
-            if (item && itemPath !== path && matchesAnyOfGlobs(itemPath)) {
+            if (item && itemPath !== path2 && matchesAnyOfGlobs(itemPath)) {
               const weHaveMatch = item.type === "file" && options.files === true || item.type === "dir" && options.directories === true;
               if (weHaveMatch) {
                 if (options.filter) {
@@ -6155,14 +6155,14 @@ var require_find = __commonJS({
         );
       });
     };
-    var findAsyncInit = (path, options) => {
-      return inspect.async(path, { symlinks: "follow" }).then((entryPointInspect) => {
+    var findAsyncInit = (path2, options) => {
+      return inspect.async(path2, { symlinks: "follow" }).then((entryPointInspect) => {
         if (entryPointInspect === void 0) {
-          throw generatePathDoesntExistError(path);
+          throw generatePathDoesntExistError(path2);
         } else if (entryPointInspect.type !== "dir") {
-          throw generatePathNotDirectoryError(path);
+          throw generatePathNotDirectoryError(path2);
         }
-        return findAsync(path, normalizeOptions(options));
+        return findAsync(path2, normalizeOptions(options));
       });
     };
     exports.validateInput = validateInput;
@@ -6181,9 +6181,9 @@ var require_inspect_tree = __commonJS({
     var list = require_list();
     var validate = require_validate2();
     var treeWalker = require_tree_walker();
-    var validateInput = (methodName, path, options) => {
+    var validateInput = (methodName, path2, options) => {
       const methodSignature = `${methodName}(path, [options])`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.options(methodSignature, "options", options, {
         checksum: ["string"],
         relativePath: ["boolean"],
@@ -6257,15 +6257,15 @@ var require_inspect_tree = __commonJS({
       }
       return treeNode;
     };
-    var inspectTreeSync = (path, opts) => {
+    var inspectTreeSync = (path2, opts) => {
       const options = opts || {};
       let tree;
-      treeWalker.sync(path, { inspectOptions: options }, (itemPath, item) => {
+      treeWalker.sync(path2, { inspectOptions: options }, (itemPath, item) => {
         if (item) {
           if (item.type === "dir") {
             item.children = [];
           }
-          const relativePath = pathUtil.relative(path, itemPath);
+          const relativePath = pathUtil.relative(path2, itemPath);
           if (relativePath === "") {
             tree = item;
           } else {
@@ -6283,19 +6283,19 @@ var require_inspect_tree = __commonJS({
       }
       return tree;
     };
-    var inspectTreeAsync = (path, opts) => {
+    var inspectTreeAsync = (path2, opts) => {
       const options = opts || {};
       let tree;
       return new Promise((resolve, reject) => {
         treeWalker.async(
-          path,
+          path2,
           { inspectOptions: options },
           (itemPath, item) => {
             if (item) {
               if (item.type === "dir") {
                 item.children = [];
               }
-              const relativePath = pathUtil.relative(path, itemPath);
+              const relativePath = pathUtil.relative(path2, itemPath);
               if (relativePath === "") {
                 tree = item;
               } else {
@@ -6333,13 +6333,13 @@ var require_exists = __commonJS({
     "use strict";
     var fs = require_fs();
     var validate = require_validate2();
-    var validateInput = (methodName, path) => {
+    var validateInput = (methodName, path2) => {
       const methodSignature = `${methodName}(path)`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
     };
-    var existsSync = (path) => {
+    var existsSync = (path2) => {
       try {
-        const stat = fs.statSync(path);
+        const stat = fs.statSync(path2);
         if (stat.isDirectory()) {
           return "dir";
         } else if (stat.isFile()) {
@@ -6353,9 +6353,9 @@ var require_exists = __commonJS({
       }
       return false;
     };
-    var existsAsync = (path) => {
+    var existsAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs.stat(path).then((stat) => {
+        fs.stat(path2).then((stat) => {
           if (stat.isDirectory()) {
             resolve("dir");
           } else if (stat.isFile()) {
@@ -6422,13 +6422,13 @@ var require_copy = __commonJS({
       }
       return parsedOptions;
     };
-    var generateNoSourceError = (path) => {
-      const err = new Error(`Path to copy doesn't exist ${path}`);
+    var generateNoSourceError = (path2) => {
+      const err = new Error(`Path to copy doesn't exist ${path2}`);
       err.code = "ENOENT";
       return err;
     };
-    var generateDestinationExistsError = (path) => {
-      const err = new Error(`Destination path already exists ${path}`);
+    var generateDestinationExistsError = (path2) => {
+      const err = new Error(`Destination path already exists ${path2}`);
       err.code = "EEXIST";
       return err;
     };
@@ -6668,13 +6668,13 @@ var require_move = __commonJS({
       const opts = options || {};
       return opts;
     };
-    var generateDestinationExistsError = (path) => {
-      const err = new Error(`Destination path already exists ${path}`);
+    var generateDestinationExistsError = (path2) => {
+      const err = new Error(`Destination path already exists ${path2}`);
       err.code = "EEXIST";
       return err;
     };
-    var generateSourceDoesntExistError = (path) => {
-      const err = new Error(`Path to move doesn't exist ${path}`);
+    var generateSourceDoesntExistError = (path2) => {
+      const err = new Error(`Path to move doesn't exist ${path2}`);
       err.code = "ENOENT";
       return err;
     };
@@ -6758,9 +6758,9 @@ var require_read = __commonJS({
     var fs = require_fs();
     var validate = require_validate2();
     var supportedReturnAs = ["utf8", "buffer", "json", "jsonWithDates"];
-    var validateInput = (methodName, path, returnAs) => {
+    var validateInput = (methodName, path2, returnAs) => {
       const methodSignature = `${methodName}(path, returnAs)`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.argument(methodSignature, "returnAs", returnAs, [
         "string",
         "undefined"
@@ -6782,14 +6782,14 @@ var require_read = __commonJS({
       }
       return value;
     };
-    var makeNicerJsonParsingError = (path, err) => {
+    var makeNicerJsonParsingError = (path2, err) => {
       const nicerError = new Error(
-        `JSON parsing failed while reading ${path} [${err}]`
+        `JSON parsing failed while reading ${path2} [${err}]`
       );
       nicerError.originalError = err;
       return nicerError;
     };
-    var readSync = (path, returnAs) => {
+    var readSync = (path2, returnAs) => {
       const retAs = returnAs || "utf8";
       let data;
       let encoding = "utf8";
@@ -6797,7 +6797,7 @@ var require_read = __commonJS({
         encoding = null;
       }
       try {
-        data = fs.readFileSync(path, { encoding });
+        data = fs.readFileSync(path2, { encoding });
       } catch (err) {
         if (err.code === "ENOENT") {
           return void 0;
@@ -6811,18 +6811,18 @@ var require_read = __commonJS({
           data = JSON.parse(data, jsonDateParser);
         }
       } catch (err) {
-        throw makeNicerJsonParsingError(path, err);
+        throw makeNicerJsonParsingError(path2, err);
       }
       return data;
     };
-    var readAsync = (path, returnAs) => {
+    var readAsync = (path2, returnAs) => {
       return new Promise((resolve, reject) => {
         const retAs = returnAs || "utf8";
         let encoding = "utf8";
         if (retAs === "buffer") {
           encoding = null;
         }
-        fs.readFile(path, { encoding }).then((data) => {
+        fs.readFile(path2, { encoding }).then((data) => {
           try {
             if (retAs === "json") {
               resolve(JSON.parse(data));
@@ -6832,7 +6832,7 @@ var require_read = __commonJS({
               resolve(data);
             }
           } catch (err) {
-            reject(makeNicerJsonParsingError(path, err));
+            reject(makeNicerJsonParsingError(path2, err));
           }
         }).catch((err) => {
           if (err.code === "ENOENT") {
@@ -6856,9 +6856,9 @@ var require_rename = __commonJS({
     var pathUtil = require("path");
     var move = require_move();
     var validate = require_validate2();
-    var validateInput = (methodName, path, newName, options) => {
+    var validateInput = (methodName, path2, newName, options) => {
       const methodSignature = `${methodName}(path, newName, [options])`;
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
       validate.argument(methodSignature, "newName", newName, ["string"]);
       validate.options(methodSignature, "options", options, {
         overwrite: ["boolean"]
@@ -6869,13 +6869,13 @@ var require_rename = __commonJS({
         );
       }
     };
-    var renameSync = (path, newName, options) => {
-      const newPath = pathUtil.join(pathUtil.dirname(path), newName);
-      move.sync(path, newPath, options);
+    var renameSync = (path2, newName, options) => {
+      const newPath = pathUtil.join(pathUtil.dirname(path2), newName);
+      move.sync(path2, newPath, options);
     };
-    var renameAsync = (path, newName, options) => {
-      const newPath = pathUtil.join(pathUtil.dirname(path), newName);
-      return move.async(path, newPath, options);
+    var renameAsync = (path2, newName, options) => {
+      const newPath = pathUtil.join(pathUtil.dirname(path2), newName);
+      return move.async(path2, newPath, options);
     };
     exports.validateInput = validateInput;
     exports.sync = renameSync;
@@ -6891,29 +6891,29 @@ var require_symlink = __commonJS({
     var fs = require_fs();
     var validate = require_validate2();
     var dir = require_dir();
-    var validateInput = (methodName, symlinkValue, path) => {
+    var validateInput = (methodName, symlinkValue, path2) => {
       const methodSignature = `${methodName}(symlinkValue, path)`;
       validate.argument(methodSignature, "symlinkValue", symlinkValue, ["string"]);
-      validate.argument(methodSignature, "path", path, ["string"]);
+      validate.argument(methodSignature, "path", path2, ["string"]);
     };
-    var symlinkSync = (symlinkValue, path) => {
+    var symlinkSync = (symlinkValue, path2) => {
       try {
-        fs.symlinkSync(symlinkValue, path);
+        fs.symlinkSync(symlinkValue, path2);
       } catch (err) {
         if (err.code === "ENOENT") {
-          dir.createSync(pathUtil.dirname(path));
-          fs.symlinkSync(symlinkValue, path);
+          dir.createSync(pathUtil.dirname(path2));
+          fs.symlinkSync(symlinkValue, path2);
         } else {
           throw err;
         }
       }
     };
-    var symlinkAsync = (symlinkValue, path) => {
+    var symlinkAsync = (symlinkValue, path2) => {
       return new Promise((resolve, reject) => {
-        fs.symlink(symlinkValue, path).then(resolve).catch((err) => {
+        fs.symlink(symlinkValue, path2).then(resolve).catch((err) => {
           if (err.code === "ENOENT") {
-            dir.createAsync(pathUtil.dirname(path)).then(() => {
-              return fs.symlink(symlinkValue, path);
+            dir.createAsync(pathUtil.dirname(path2)).then(() => {
+              return fs.symlink(symlinkValue, path2);
             }).then(resolve, reject);
           } else {
             reject(err);
@@ -7058,8 +7058,8 @@ var require_jetpack = __commonJS({
         const pathParts = [getCwdPath()].concat(args);
         return jetpackContext(pathUtil.resolve.apply(null, pathParts));
       };
-      const resolvePath = (path) => {
-        return pathUtil.resolve(getCwdPath(), path);
+      const resolvePath = (path2) => {
+        return pathUtil.resolve(getCwdPath(), path2);
       };
       const getPath = function() {
         Array.prototype.unshift.call(arguments, getCwdPath());
@@ -7073,13 +7073,13 @@ var require_jetpack = __commonJS({
       const api = {
         cwd,
         path: getPath,
-        append: (path, data, options) => {
-          append.validateInput("append", path, data, options);
-          append.sync(resolvePath(path), data, options);
+        append: (path2, data, options) => {
+          append.validateInput("append", path2, data, options);
+          append.sync(resolvePath(path2), data, options);
         },
-        appendAsync: (path, data, options) => {
-          append.validateInput("appendAsync", path, data, options);
-          return append.async(resolvePath(path), data, options);
+        appendAsync: (path2, data, options) => {
+          append.validateInput("appendAsync", path2, data, options);
+          return append.async(resolvePath(path2), data, options);
         },
         copy: (from, to, options) => {
           copy.validateInput("copy", from, to, options);
@@ -7089,44 +7089,44 @@ var require_jetpack = __commonJS({
           copy.validateInput("copyAsync", from, to, options);
           return copy.async(resolvePath(from), resolvePath(to), options);
         },
-        createWriteStream: (path, options) => {
-          return streams.createWriteStream(resolvePath(path), options);
+        createWriteStream: (path2, options) => {
+          return streams.createWriteStream(resolvePath(path2), options);
         },
-        createReadStream: (path, options) => {
-          return streams.createReadStream(resolvePath(path), options);
+        createReadStream: (path2, options) => {
+          return streams.createReadStream(resolvePath(path2), options);
         },
-        dir: (path, criteria) => {
-          dir.validateInput("dir", path, criteria);
-          const normalizedPath = resolvePath(path);
+        dir: (path2, criteria) => {
+          dir.validateInput("dir", path2, criteria);
+          const normalizedPath = resolvePath(path2);
           dir.sync(normalizedPath, criteria);
           return cwd(normalizedPath);
         },
-        dirAsync: (path, criteria) => {
-          dir.validateInput("dirAsync", path, criteria);
+        dirAsync: (path2, criteria) => {
+          dir.validateInput("dirAsync", path2, criteria);
           return new Promise((resolve, reject) => {
-            const normalizedPath = resolvePath(path);
+            const normalizedPath = resolvePath(path2);
             dir.async(normalizedPath, criteria).then(() => {
               resolve(cwd(normalizedPath));
             }, reject);
           });
         },
-        exists: (path) => {
-          exists.validateInput("exists", path);
-          return exists.sync(resolvePath(path));
+        exists: (path2) => {
+          exists.validateInput("exists", path2);
+          return exists.sync(resolvePath(path2));
         },
-        existsAsync: (path) => {
-          exists.validateInput("existsAsync", path);
-          return exists.async(resolvePath(path));
+        existsAsync: (path2) => {
+          exists.validateInput("existsAsync", path2);
+          return exists.async(resolvePath(path2));
         },
-        file: (path, criteria) => {
-          file.validateInput("file", path, criteria);
-          file.sync(resolvePath(path), criteria);
+        file: (path2, criteria) => {
+          file.validateInput("file", path2, criteria);
+          file.sync(resolvePath(path2), criteria);
           return api;
         },
-        fileAsync: (path, criteria) => {
-          file.validateInput("fileAsync", path, criteria);
+        fileAsync: (path2, criteria) => {
+          file.validateInput("fileAsync", path2, criteria);
           return new Promise((resolve, reject) => {
-            file.async(resolvePath(path), criteria).then(() => {
+            file.async(resolvePath(path2), criteria).then(() => {
               resolve(api);
             }, reject);
           });
@@ -7147,29 +7147,29 @@ var require_jetpack = __commonJS({
           find.validateInput("findAsync", startPath, options);
           return find.async(resolvePath(startPath), normalizeOptions(options));
         },
-        inspect: (path, fieldsToInclude) => {
-          inspect.validateInput("inspect", path, fieldsToInclude);
-          return inspect.sync(resolvePath(path), fieldsToInclude);
+        inspect: (path2, fieldsToInclude) => {
+          inspect.validateInput("inspect", path2, fieldsToInclude);
+          return inspect.sync(resolvePath(path2), fieldsToInclude);
         },
-        inspectAsync: (path, fieldsToInclude) => {
-          inspect.validateInput("inspectAsync", path, fieldsToInclude);
-          return inspect.async(resolvePath(path), fieldsToInclude);
+        inspectAsync: (path2, fieldsToInclude) => {
+          inspect.validateInput("inspectAsync", path2, fieldsToInclude);
+          return inspect.async(resolvePath(path2), fieldsToInclude);
         },
-        inspectTree: (path, options) => {
-          inspectTree.validateInput("inspectTree", path, options);
-          return inspectTree.sync(resolvePath(path), options);
+        inspectTree: (path2, options) => {
+          inspectTree.validateInput("inspectTree", path2, options);
+          return inspectTree.sync(resolvePath(path2), options);
         },
-        inspectTreeAsync: (path, options) => {
-          inspectTree.validateInput("inspectTreeAsync", path, options);
-          return inspectTree.async(resolvePath(path), options);
+        inspectTreeAsync: (path2, options) => {
+          inspectTree.validateInput("inspectTreeAsync", path2, options);
+          return inspectTree.async(resolvePath(path2), options);
         },
-        list: (path) => {
-          list.validateInput("list", path);
-          return list.sync(resolvePath(path || "."));
+        list: (path2) => {
+          list.validateInput("list", path2);
+          return list.sync(resolvePath(path2 || "."));
         },
-        listAsync: (path) => {
-          list.validateInput("listAsync", path);
-          return list.async(resolvePath(path || "."));
+        listAsync: (path2) => {
+          list.validateInput("listAsync", path2);
+          return list.async(resolvePath(path2 || "."));
         },
         move: (from, to, options) => {
           move.validateInput("move", from, to, options);
@@ -7179,37 +7179,37 @@ var require_jetpack = __commonJS({
           move.validateInput("moveAsync", from, to, options);
           return move.async(resolvePath(from), resolvePath(to), options);
         },
-        read: (path, returnAs) => {
-          read.validateInput("read", path, returnAs);
-          return read.sync(resolvePath(path), returnAs);
+        read: (path2, returnAs) => {
+          read.validateInput("read", path2, returnAs);
+          return read.sync(resolvePath(path2), returnAs);
         },
-        readAsync: (path, returnAs) => {
-          read.validateInput("readAsync", path, returnAs);
-          return read.async(resolvePath(path), returnAs);
+        readAsync: (path2, returnAs) => {
+          read.validateInput("readAsync", path2, returnAs);
+          return read.async(resolvePath(path2), returnAs);
         },
-        remove: (path) => {
-          remove.validateInput("remove", path);
-          remove.sync(resolvePath(path || "."));
+        remove: (path2) => {
+          remove.validateInput("remove", path2);
+          remove.sync(resolvePath(path2 || "."));
         },
-        removeAsync: (path) => {
-          remove.validateInput("removeAsync", path);
-          return remove.async(resolvePath(path || "."));
+        removeAsync: (path2) => {
+          remove.validateInput("removeAsync", path2);
+          return remove.async(resolvePath(path2 || "."));
         },
-        rename: (path, newName, options) => {
-          rename.validateInput("rename", path, newName, options);
-          rename.sync(resolvePath(path), newName, options);
+        rename: (path2, newName, options) => {
+          rename.validateInput("rename", path2, newName, options);
+          rename.sync(resolvePath(path2), newName, options);
         },
-        renameAsync: (path, newName, options) => {
-          rename.validateInput("renameAsync", path, newName, options);
-          return rename.async(resolvePath(path), newName, options);
+        renameAsync: (path2, newName, options) => {
+          rename.validateInput("renameAsync", path2, newName, options);
+          return rename.async(resolvePath(path2), newName, options);
         },
-        symlink: (symlinkValue, path) => {
-          symlink.validateInput("symlink", symlinkValue, path);
-          symlink.sync(symlinkValue, resolvePath(path));
+        symlink: (symlinkValue, path2) => {
+          symlink.validateInput("symlink", symlinkValue, path2);
+          symlink.sync(symlinkValue, resolvePath(path2));
         },
-        symlinkAsync: (symlinkValue, path) => {
-          symlink.validateInput("symlinkAsync", symlinkValue, path);
-          return symlink.async(symlinkValue, resolvePath(path));
+        symlinkAsync: (symlinkValue, path2) => {
+          symlink.validateInput("symlinkAsync", symlinkValue, path2);
+          return symlink.async(symlinkValue, resolvePath(path2));
         },
         tmpDir: (options) => {
           tmpDir.validateInput("tmpDir", options);
@@ -7224,13 +7224,13 @@ var require_jetpack = __commonJS({
             }, reject);
           });
         },
-        write: (path, data, options) => {
-          write.validateInput("write", path, data, options);
-          write.sync(resolvePath(path), data, options);
+        write: (path2, data, options) => {
+          write.validateInput("write", path2, data, options);
+          write.sync(resolvePath(path2), data, options);
         },
-        writeAsync: (path, data, options) => {
-          write.validateInput("writeAsync", path, data, options);
-          return write.async(resolvePath(path), data, options);
+        writeAsync: (path2, data, options) => {
+          write.validateInput("writeAsync", path2, data, options);
+          return write.async(resolvePath(path2), data, options);
         }
       };
       if (util.inspect.custom !== void 0) {
@@ -7254,7 +7254,9 @@ var require_main = __commonJS({
 });
 
 // src/main.ts
+var import_path = __toESM(require("path"));
 var core2 = __toESM(require_core());
+var import_fs_jetpack = __toESM(require_main());
 
 // src/action.ts
 var core = __toESM(require_core());
@@ -7262,6 +7264,7 @@ function getConfig() {
   return {
     token: core.getInput("token", { required: true }),
     base_url: core.getInput("base_url", { required: true }),
+    project_id: core.getInput("project_id", { required: true }),
     folder: (() => {
       const input = core.getInput("folder");
       return input === "" ? "./" : input;
@@ -7270,14 +7273,32 @@ function getConfig() {
 }
 
 // src/main.ts
-var import_fs_jetpack = __toESM(require_main());
 async function run() {
   try {
     const config = getConfig();
     core2.info(`Sending sourcemap files to Raygun...`);
-    import_fs_jetpack.default.find(config.folder, { matching: "*.js.map" }).forEach((path) => {
-      console.log(path);
-    });
+    const sourcemaps = import_fs_jetpack.default.find(config.folder, { matching: "*.js.map" });
+    for (const sourcemap of sourcemaps) {
+      console.log(sourcemap);
+      const formData = new FormData();
+      formData.append(
+        "url",
+        `${config.base_url}/${import_path.default.parse(sourcemap).base}`
+      );
+      formData.append("file", sourcemap);
+      const res = await fetch(
+        `https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`,
+        {
+          method: "POST",
+          body: formData
+        }
+      );
+      core2.info("Response code:" + res.status);
+      core2.info(res.statusText);
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+    }
   } catch (error2) {
     if (error2 instanceof Error) {
       core2.error(`Failed: ${error2.message}`);

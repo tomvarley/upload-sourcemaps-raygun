@@ -24,11 +24,13 @@ async function run(): Promise<void> {
       const res = await fetch(
         `https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`,
         {
-          // Your POST endpoint
           method: "POST",
           body: formData,
         }
       );
+
+      core.info("Response code:" + res.status);
+      core.info(res.statusText);
 
       if (!res.ok) {
         throw new Error(res.statusText);
