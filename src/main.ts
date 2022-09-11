@@ -1,7 +1,7 @@
-import { opendir } from "fs/promises";
+import path from "path";
 import * as core from "@actions/core";
-import { getConfig } from "./action";
 import jetpack from "fs-jetpack";
+import { getConfig } from "./action";
 
 async function run(): Promise<void> {
   try {
@@ -9,8 +9,31 @@ async function run(): Promise<void> {
 
     core.info(`Sending sourcemap files to Raygun...`);
 
-    // eslint-disable-next-line github/array-foreach
-    jetpack.find(config.folder!, {matching: '*.js.map'}).forEach( (path) => {console.log(path)})
+    const sourcemaps = jetpack.find(config.folder!, { matching: "*.js.map" });
+
+    for (const sourcemap of sourcemaps) {
+      console.log(sourcemap);
+      const formData = new FormData();
+
+      formData.append(
+        "url",
+        `${config.base_url}/${path.parse(sourcemap).base}`
+      );
+      formData.append("file", sourcemap);
+
+      const res = await fetch(
+        `https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`,
+        {
+          // Your POST endpoint
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+    }
 
     // try {
     //   const dir = await opendir(config.folder!);
