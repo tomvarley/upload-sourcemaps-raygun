@@ -1,12 +1,10 @@
 import { opendir } from "fs/promises";
 import * as core from "@actions/core";
 import { getConfig } from "./action";
-import { init } from "./api";
 
 async function run(): Promise<void> {
   try {
     const config = getConfig();
-    init(config);
 
     core.info(`Sending sourcemap files to Raygun...`);
 
