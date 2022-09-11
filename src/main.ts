@@ -22,6 +22,10 @@ async function run(): Promise<void> {
       );
       formData.append("file", sourcemap);
 
+      core.info(
+        `Calling url: https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`
+      );
+
       const res = await fetch(
         `https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`,
         {
@@ -30,11 +34,11 @@ async function run(): Promise<void> {
         }
       );
 
-      core.info("Response code:" + res.status);
-      core.info(res.statusText);
+      core.info("Response code: " + res.status);
+      core.info("Response text: " + res.statusText);
 
       if (!res.ok) {
-        throw new Error(res.statusText);
+        throw new Error(`Sending failed with response: [${res.status}] {$res.statusText}`);
       }
     }
 
