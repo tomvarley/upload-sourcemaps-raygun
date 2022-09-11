@@ -13,7 +13,7 @@ async function run(): Promise<void> {
 
     for (const sourcemap of sourcemaps) {
       console.log(sourcemap);
-      const formData = new FormData();
+      const formData = new URLSearchParams();
 
       formData.append(
         "url",

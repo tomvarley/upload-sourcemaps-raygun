@@ -7280,7 +7280,7 @@ async function run() {
     const sourcemaps = import_fs_jetpack.default.find(config.folder, { matching: "*.js.map" });
     for (const sourcemap of sourcemaps) {
       console.log(sourcemap);
-      const formData = new FormData();
+      const formData = new URLSearchParams();
       formData.append(
         "url",
         `${config.base_url}/${import_path.default.parse(sourcemap).base}`
