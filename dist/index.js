@@ -12839,7 +12839,6 @@ async function run() {
         `${config.base_url}/${import_path.default.parse(sourcemap).base}`
       );
       const data = await fs2.readFile(sourcemap, { encoding: "utf8" });
-      core2.info("Data:" + data);
       formData.append("file", data);
       core2.info("Formdata:" + formData);
       core2.info(
@@ -12849,6 +12848,9 @@ async function run() {
         `https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`,
         {
           method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
           body: formData
         }
       );

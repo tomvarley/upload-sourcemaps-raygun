@@ -23,7 +23,7 @@ async function run(): Promise<void> {
 
       const data = await fs.readFile(sourcemap, { encoding: "utf8" });
 
-      core.info("Data:" + data);
+      // core.info("Data:" + data);
       formData.append("file", data);
 
       core.info("Formdata:" + formData);
@@ -36,6 +36,9 @@ async function run(): Promise<void> {
         `https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`,
         {
           method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
           body: formData,
         }
       );
