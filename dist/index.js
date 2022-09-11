@@ -12839,6 +12839,7 @@ async function run() {
         `${config.base_url}/${import_path.default.parse(sourcemap).base}`
       );
       formData.append("file", sourcemap);
+      core2.info("Formdata:" + formData);
       core2.info(
         `Calling url: https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`
       );
@@ -12849,11 +12850,9 @@ async function run() {
           body: formData
         }
       );
-      core2.info("Response code: " + res.status);
-      core2.info("Response text: " + res.statusText);
       if (!res.ok) {
         throw new Error(
-          `Sending failed with response: [${res.status}] {$res.statusText}`
+          `Sending failed with response: [${res.status}] ${res.statusText}`
         );
       }
     }

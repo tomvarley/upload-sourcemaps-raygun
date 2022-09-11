@@ -22,8 +22,10 @@ async function run(): Promise<void> {
       );
       formData.append("file", sourcemap);
 
+      core.info("Formdata:" + formData);
+
       core.info(
-        `Calling url: https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`
+        `Calling url: https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`
       );
 
       const res = await fetch(
@@ -34,12 +36,9 @@ async function run(): Promise<void> {
         }
       );
 
-      core.info("Response code: " + res.status);
-      core.info("Response text: " + res.statusText);
-
       if (!res.ok) {
         throw new Error(
-          `Sending failed with response: [${res.status}] {$res.statusText}`
+          `Sending failed with response: [${res.status}] ${res.statusText}`
         );
       }
     }
