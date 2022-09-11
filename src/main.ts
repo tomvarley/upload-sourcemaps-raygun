@@ -1,6 +1,7 @@
 import path from "path";
 import * as core from "@actions/core";
 import jetpack from "fs-jetpack";
+import fetch from "node-fetch";
 import { getConfig } from "./action";
 
 async function run(): Promise<void> {
