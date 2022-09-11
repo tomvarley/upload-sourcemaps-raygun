@@ -181,7 +181,7 @@ var require_file_command = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.issueCommand = void 0;
-    var fs2 = __importStar(require("fs"));
+    var fs3 = __importStar(require("fs"));
     var os = __importStar(require("os"));
     var utils_1 = require_utils();
     function issueCommand(command, message) {
@@ -189,10 +189,10 @@ var require_file_command = __commonJS({
       if (!filePath) {
         throw new Error(`Unable to find environment variable for file command ${command}`);
       }
-      if (!fs2.existsSync(filePath)) {
+      if (!fs3.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs2.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
+      fs3.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
         encoding: "utf8"
       });
     }
@@ -2204,11 +2204,11 @@ var require_promisify = __commonJS({
 var require_fs = __commonJS({
   "node_modules/fs-jetpack/lib/utils/fs.js"(exports, module2) {
     "use strict";
-    var fs2 = require("fs");
+    var fs3 = require("fs");
     var promisify2 = require_promisify();
     var isCallbackMethod = (key) => {
       return [
-        typeof fs2[key] === "function",
+        typeof fs3[key] === "function",
         !key.match(/Sync$/),
         !key.match(/^[A-Z]/),
         !key.match(/^create/),
@@ -2216,12 +2216,12 @@ var require_fs = __commonJS({
       ].every(Boolean);
     };
     var adaptMethod = (name) => {
-      const original = fs2[name];
+      const original = fs3[name];
       return promisify2(original);
     };
     var adaptAllMethods = () => {
       const adapted = {};
-      Object.keys(fs2).forEach((key) => {
+      Object.keys(fs3).forEach((key) => {
         if (isCallbackMethod(key)) {
           if (key === "exists") {
             adapted.exists = () => {
@@ -2231,7 +2231,7 @@ var require_fs = __commonJS({
             adapted[key] = adaptMethod(key);
           }
         } else {
-          adapted[key] = fs2[key];
+          adapted[key] = fs3[key];
         }
       });
       return adapted;
@@ -2374,7 +2374,7 @@ var require_old = __commonJS({
   "node_modules/fs.realpath/old.js"(exports) {
     var pathModule = require("path");
     var isWindows = process.platform === "win32";
-    var fs2 = require("fs");
+    var fs3 = require("fs");
     var DEBUG = process.env.NODE_DEBUG && /fs/.test(process.env.NODE_DEBUG);
     function rethrow() {
       var callback;
@@ -2439,7 +2439,7 @@ var require_old = __commonJS({
         base = m2[0];
         previous = "";
         if (isWindows && !knownHard[base]) {
-          fs2.lstatSync(base);
+          fs3.lstatSync(base);
           knownHard[base] = true;
         }
       }
@@ -2457,7 +2457,7 @@ var require_old = __commonJS({
         if (cache && Object.prototype.hasOwnProperty.call(cache, base)) {
           resolvedLink = cache[base];
         } else {
-          var stat2 = fs2.lstatSync(base);
+          var stat2 = fs3.lstatSync(base);
           if (!stat2.isSymbolicLink()) {
             knownHard[base] = true;
             if (cache)
@@ -2472,8 +2472,8 @@ var require_old = __commonJS({
             }
           }
           if (linkTarget === null) {
-            fs2.statSync(base);
-            linkTarget = fs2.readlinkSync(base);
+            fs3.statSync(base);
+            linkTarget = fs3.readlinkSync(base);
           }
           resolvedLink = pathModule.resolve(previous, linkTarget);
           if (cache)
@@ -2510,7 +2510,7 @@ var require_old = __commonJS({
         base = m2[0];
         previous = "";
         if (isWindows && !knownHard[base]) {
-          fs2.lstat(base, function(err) {
+          fs3.lstat(base, function(err) {
             if (err)
               return cb(err);
             knownHard[base] = true;
@@ -2538,7 +2538,7 @@ var require_old = __commonJS({
         if (cache && Object.prototype.hasOwnProperty.call(cache, base)) {
           return gotResolvedLink(cache[base]);
         }
-        return fs2.lstat(base, gotStat);
+        return fs3.lstat(base, gotStat);
       }
       function gotStat(err, stat2) {
         if (err)
@@ -2555,10 +2555,10 @@ var require_old = __commonJS({
             return gotTarget(null, seenLinks[id], base);
           }
         }
-        fs2.stat(base, function(err2) {
+        fs3.stat(base, function(err2) {
           if (err2)
             return cb(err2);
-          fs2.readlink(base, function(err3, target) {
+          fs3.readlink(base, function(err3, target) {
             if (!isWindows)
               seenLinks[id] = target;
             gotTarget(err3, target);
@@ -2590,9 +2590,9 @@ var require_fs2 = __commonJS({
     realpath.realpathSync = realpathSync;
     realpath.monkeypatch = monkeypatch;
     realpath.unmonkeypatch = unmonkeypatch;
-    var fs2 = require("fs");
-    var origRealpath = fs2.realpath;
-    var origRealpathSync = fs2.realpathSync;
+    var fs3 = require("fs");
+    var origRealpath = fs3.realpath;
+    var origRealpathSync = fs3.realpathSync;
     var version = process.version;
     var ok = /^v[0-5]\./.test(version);
     var old = require_old();
@@ -2630,12 +2630,12 @@ var require_fs2 = __commonJS({
       }
     }
     function monkeypatch() {
-      fs2.realpath = realpath;
-      fs2.realpathSync = realpathSync;
+      fs3.realpath = realpath;
+      fs3.realpathSync = realpathSync;
     }
     function unmonkeypatch() {
-      fs2.realpath = origRealpath;
-      fs2.realpathSync = origRealpathSync;
+      fs3.realpath = origRealpath;
+      fs3.realpathSync = origRealpathSync;
     }
   }
 });
@@ -3535,7 +3535,7 @@ var require_common = __commonJS({
     function ownProp(obj, field) {
       return Object.prototype.hasOwnProperty.call(obj, field);
     }
-    var fs2 = require("fs");
+    var fs3 = require("fs");
     var path2 = require("path");
     var minimatch = require_minimatch();
     var isAbsolute = require_path_is_absolute();
@@ -3590,7 +3590,7 @@ var require_common = __commonJS({
       self2.stat = !!options.stat;
       self2.noprocess = !!options.noprocess;
       self2.absolute = !!options.absolute;
-      self2.fs = options.fs || fs2;
+      self2.fs = options.fs || fs3;
       self2.maxLength = options.maxLength || Infinity;
       self2.cache = options.cache || /* @__PURE__ */ Object.create(null);
       self2.statCache = options.statCache || /* @__PURE__ */ Object.create(null);
@@ -4753,7 +4753,7 @@ var require_rimraf = __commonJS({
     rimraf.sync = rimrafSync;
     var assert = require("assert");
     var path2 = require("path");
-    var fs2 = require("fs");
+    var fs3 = require("fs");
     var glob = void 0;
     try {
       glob = require_glob();
@@ -4776,9 +4776,9 @@ var require_rimraf = __commonJS({
         "readdir"
       ];
       methods.forEach(function(m2) {
-        options[m2] = options[m2] || fs2[m2];
+        options[m2] = options[m2] || fs3[m2];
         m2 = m2 + "Sync";
-        options[m2] = options[m2] || fs2[m2];
+        options[m2] = options[m2] || fs3[m2];
       });
       options.maxBusyTries = options.maxBusyTries || 3;
       options.emfileWait = options.emfileWait || 1e3;
@@ -5069,7 +5069,7 @@ var require_dir = __commonJS({
   "node_modules/fs-jetpack/lib/dir.js"(exports) {
     "use strict";
     var pathUtil = require("path");
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var modeUtil = require_mode();
     var validate = require_validate2();
     var remove = require_remove();
@@ -5099,7 +5099,7 @@ var require_dir = __commonJS({
     var checkWhatAlreadyOccupiesPathSync = (path2) => {
       let stat2;
       try {
-        stat2 = fs2.statSync(path2);
+        stat2 = fs3.statSync(path2);
       } catch (err) {
         if (err.code !== "ENOENT") {
           throw err;
@@ -5113,11 +5113,11 @@ var require_dir = __commonJS({
     var createBrandNewDirectorySync = (path2, opts) => {
       const options = opts || {};
       try {
-        fs2.mkdirSync(path2, options.mode);
+        fs3.mkdirSync(path2, options.mode);
       } catch (err) {
         if (err.code === "ENOENT") {
           createBrandNewDirectorySync(pathUtil.dirname(path2), options);
-          fs2.mkdirSync(path2, options.mode);
+          fs3.mkdirSync(path2, options.mode);
         } else if (err.code === "EEXIST") {
         } else {
           throw err;
@@ -5128,12 +5128,12 @@ var require_dir = __commonJS({
       const checkMode = () => {
         const mode = modeUtil.normalizeFileMode(stat2.mode);
         if (criteria.mode !== void 0 && criteria.mode !== mode) {
-          fs2.chmodSync(path2, criteria.mode);
+          fs3.chmodSync(path2, criteria.mode);
         }
       };
       const checkEmptiness = () => {
         if (criteria.empty) {
-          const list = fs2.readdirSync(path2);
+          const list = fs3.readdirSync(path2);
           list.forEach((filename) => {
             remove.sync(pathUtil.resolve(path2, filename));
           });
@@ -5153,7 +5153,7 @@ var require_dir = __commonJS({
     };
     var checkWhatAlreadyOccupiesPathAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs2.stat(path2).then((stat2) => {
+        fs3.stat(path2).then((stat2) => {
           if (stat2.isDirectory()) {
             resolve(stat2);
           } else {
@@ -5170,7 +5170,7 @@ var require_dir = __commonJS({
     };
     var emptyAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs2.readdir(path2).then((list) => {
+        fs3.readdir(path2).then((list) => {
           const doOne = (index) => {
             if (index === list.length) {
               resolve();
@@ -5190,7 +5190,7 @@ var require_dir = __commonJS({
         const checkMode = () => {
           const mode = modeUtil.normalizeFileMode(stat2.mode);
           if (criteria.mode !== void 0 && criteria.mode !== mode) {
-            return fs2.chmod(path2, criteria.mode);
+            return fs3.chmod(path2, criteria.mode);
           }
           return Promise.resolve();
         };
@@ -5206,10 +5206,10 @@ var require_dir = __commonJS({
     var createBrandNewDirectoryAsync = (path2, opts) => {
       const options = opts || {};
       return new Promise((resolve, reject) => {
-        fs2.mkdir(path2, options.mode).then(resolve).catch((err) => {
+        fs3.mkdir(path2, options.mode).then(resolve).catch((err) => {
           if (err.code === "ENOENT") {
             createBrandNewDirectoryAsync(pathUtil.dirname(path2), options).then(() => {
-              return fs2.mkdir(path2, options.mode);
+              return fs3.mkdir(path2, options.mode);
             }).then(resolve).catch((err2) => {
               if (err2.code === "EEXIST") {
                 resolve();
@@ -5253,7 +5253,7 @@ var require_write = __commonJS({
   "node_modules/fs-jetpack/lib/write.js"(exports) {
     "use strict";
     var pathUtil = require("path");
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var validate = require_validate2();
     var dir = require_dir();
     var validateInput = (methodName, path2, data, options) => {
@@ -5284,11 +5284,11 @@ var require_write = __commonJS({
     };
     var writeFileSync = (path2, data, options) => {
       try {
-        fs2.writeFileSync(path2, data, options);
+        fs3.writeFileSync(path2, data, options);
       } catch (err) {
         if (err.code === "ENOENT") {
           dir.createSync(pathUtil.dirname(path2));
-          fs2.writeFileSync(path2, data, options);
+          fs3.writeFileSync(path2, data, options);
         } else {
           throw err;
         }
@@ -5296,7 +5296,7 @@ var require_write = __commonJS({
     };
     var writeAtomicSync = (path2, data, options) => {
       writeFileSync(path2 + newExt, data, options);
-      fs2.renameSync(path2 + newExt, path2);
+      fs3.renameSync(path2 + newExt, path2);
     };
     var writeSync = (path2, data, options) => {
       const opts = options || {};
@@ -5309,10 +5309,10 @@ var require_write = __commonJS({
     };
     var writeFileAsync = (path2, data, options) => {
       return new Promise((resolve, reject) => {
-        fs2.writeFile(path2, data, options).then(resolve).catch((err) => {
+        fs3.writeFile(path2, data, options).then(resolve).catch((err) => {
           if (err.code === "ENOENT") {
             dir.createAsync(pathUtil.dirname(path2)).then(() => {
-              return fs2.writeFile(path2, data, options);
+              return fs3.writeFile(path2, data, options);
             }).then(resolve, reject);
           } else {
             reject(err);
@@ -5323,7 +5323,7 @@ var require_write = __commonJS({
     var writeAtomicAsync = (path2, data, options) => {
       return new Promise((resolve, reject) => {
         writeFileAsync(path2 + newExt, data, options).then(() => {
-          return fs2.rename(path2 + newExt, path2);
+          return fs3.rename(path2 + newExt, path2);
         }).then(resolve, reject);
       });
     };
@@ -5346,7 +5346,7 @@ var require_write = __commonJS({
 var require_append = __commonJS({
   "node_modules/fs-jetpack/lib/append.js"(exports) {
     "use strict";
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var write = require_write();
     var validate = require_validate2();
     var validateInput = (methodName, path2, data, options) => {
@@ -5359,7 +5359,7 @@ var require_append = __commonJS({
     };
     var appendSync = (path2, data, options) => {
       try {
-        fs2.appendFileSync(path2, data, options);
+        fs3.appendFileSync(path2, data, options);
       } catch (err) {
         if (err.code === "ENOENT") {
           write.sync(path2, data, options);
@@ -5370,7 +5370,7 @@ var require_append = __commonJS({
     };
     var appendAsync = (path2, data, options) => {
       return new Promise((resolve, reject) => {
-        fs2.appendFile(path2, data, options).then(resolve).catch((err) => {
+        fs3.appendFile(path2, data, options).then(resolve).catch((err) => {
           if (err.code === "ENOENT") {
             write.async(path2, data, options).then(resolve, reject);
           } else {
@@ -5389,7 +5389,7 @@ var require_append = __commonJS({
 var require_file = __commonJS({
   "node_modules/fs-jetpack/lib/file.js"(exports) {
     "use strict";
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var modeUtil = require_mode();
     var validate = require_validate2();
     var write = require_write();
@@ -5417,7 +5417,7 @@ var require_file = __commonJS({
     var checkWhatAlreadyOccupiesPathSync = (path2) => {
       let stat2;
       try {
-        stat2 = fs2.statSync(path2);
+        stat2 = fs3.statSync(path2);
       } catch (err) {
         if (err.code !== "ENOENT") {
           throw err;
@@ -5442,7 +5442,7 @@ var require_file = __commonJS({
       };
       const checkMode = () => {
         if (criteria.mode !== void 0 && criteria.mode !== mode) {
-          fs2.chmodSync(path2, criteria.mode);
+          fs3.chmodSync(path2, criteria.mode);
         }
       };
       const contentReplaced = checkContent();
@@ -5471,7 +5471,7 @@ var require_file = __commonJS({
     };
     var checkWhatAlreadyOccupiesPathAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs2.stat(path2).then((stat2) => {
+        fs3.stat(path2).then((stat2) => {
           if (stat2.isFile()) {
             resolve(stat2);
           } else {
@@ -5504,7 +5504,7 @@ var require_file = __commonJS({
       };
       const checkMode = () => {
         if (criteria.mode !== void 0 && criteria.mode !== mode) {
-          return fs2.chmod(path2, criteria.mode);
+          return fs3.chmod(path2, criteria.mode);
         }
         return void 0;
       };
@@ -5548,7 +5548,7 @@ var require_inspect = __commonJS({
     "use strict";
     var crypto = require("crypto");
     var pathUtil = require("path");
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var validate = require_validate2();
     var supportedChecksumAlgorithms = ["md5", "sha1", "sha256", "sha512"];
     var symlinkOptions = ["report", "follow"];
@@ -5605,7 +5605,7 @@ var require_inspect = __commonJS({
     };
     var fileChecksum = (path2, algo) => {
       const hash = crypto.createHash(algo);
-      const data = fs2.readFileSync(path2);
+      const data = fs3.readFileSync(path2);
       hash.update(data);
       return hash.digest("hex");
     };
@@ -5613,15 +5613,15 @@ var require_inspect = __commonJS({
       if (inspectObj.type === "file" && options.checksum) {
         inspectObj[options.checksum] = fileChecksum(path2, options.checksum);
       } else if (inspectObj.type === "symlink") {
-        inspectObj.pointsAt = fs2.readlinkSync(path2);
+        inspectObj.pointsAt = fs3.readlinkSync(path2);
       }
     };
     var inspectSync = (path2, options) => {
-      let statOperation = fs2.lstatSync;
+      let statOperation = fs3.lstatSync;
       let stat2;
       const opts = options || {};
       if (opts.symlinks === "follow") {
-        statOperation = fs2.statSync;
+        statOperation = fs3.statSync;
       }
       try {
         stat2 = statOperation(path2);
@@ -5638,7 +5638,7 @@ var require_inspect = __commonJS({
     var fileChecksumAsync = (path2, algo) => {
       return new Promise((resolve, reject) => {
         const hash = crypto.createHash(algo);
-        const s2 = fs2.createReadStream(path2);
+        const s2 = fs3.createReadStream(path2);
         s2.on("data", (data) => {
           hash.update(data);
         });
@@ -5655,7 +5655,7 @@ var require_inspect = __commonJS({
           return inspectObj;
         });
       } else if (inspectObj.type === "symlink") {
-        return fs2.readlink(path2).then((linkPath) => {
+        return fs3.readlink(path2).then((linkPath) => {
           inspectObj.pointsAt = linkPath;
           return inspectObj;
         });
@@ -5664,10 +5664,10 @@ var require_inspect = __commonJS({
     };
     var inspectAsync = (path2, options) => {
       return new Promise((resolve, reject) => {
-        let statOperation = fs2.lstat;
+        let statOperation = fs3.lstat;
         const opts = options || {};
         if (opts.symlinks === "follow") {
-          statOperation = fs2.stat;
+          statOperation = fs3.stat;
         }
         statOperation(path2).then((stat2) => {
           const inspectObj = createInspectObj(path2, opts, stat2);
@@ -5693,7 +5693,7 @@ var require_inspect = __commonJS({
 var require_list = __commonJS({
   "node_modules/fs-jetpack/lib/list.js"(exports) {
     "use strict";
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var validate = require_validate2();
     var validateInput = (methodName, path2) => {
       const methodSignature = `${methodName}(path)`;
@@ -5701,7 +5701,7 @@ var require_list = __commonJS({
     };
     var listSync = (path2) => {
       try {
-        return fs2.readdirSync(path2);
+        return fs3.readdirSync(path2);
       } catch (err) {
         if (err.code === "ENOENT") {
           return void 0;
@@ -5711,7 +5711,7 @@ var require_list = __commonJS({
     };
     var listAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs2.readdir(path2).then((list) => {
+        fs3.readdir(path2).then((list) => {
           resolve(list);
         }).catch((err) => {
           if (err.code === "ENOENT") {
@@ -5732,7 +5732,7 @@ var require_list = __commonJS({
 var require_tree_walker = __commonJS({
   "node_modules/fs-jetpack/lib/utils/tree_walker.js"(exports) {
     "use strict";
-    var fs2 = require("fs");
+    var fs3 = require("fs");
     var pathUtil = require("path");
     var inspect = require_inspect();
     var list = require_list();
@@ -5761,7 +5761,7 @@ var require_tree_walker = __commonJS({
         }
       }
       const walkSync = (path3, currentLevel) => {
-        fs2.readdirSync(path3, { withFileTypes: true }).forEach((direntItem) => {
+        fs3.readdirSync(path3, { withFileTypes: true }).forEach((direntItem) => {
           const withFileTypesNotSupported = typeof direntItem === "string";
           let fileItemPath;
           if (withFileTypesNotSupported) {
@@ -5781,7 +5781,7 @@ var require_tree_walker = __commonJS({
           } else {
             const type = fileType(direntItem);
             if (type === "symlink" && options.symlinks === "follow") {
-              const symlinkPointsTo = fs2.statSync(fileItemPath);
+              const symlinkPointsTo = fs3.statSync(fileItemPath);
               fileItem = { name: direntItem.name, type: fileType(symlinkPointsTo) };
             } else {
               fileItem = { name: direntItem.name, type };
@@ -5848,7 +5848,7 @@ var require_tree_walker = __commonJS({
           }
         };
         whenConcurrencySlotAvailable(() => {
-          fs2.readdir(path3, { withFileTypes: true }, (err, files) => {
+          fs3.readdir(path3, { withFileTypes: true }, (err, files) => {
             if (err) {
               doneCallback(err);
             } else {
@@ -5883,7 +5883,7 @@ var require_tree_walker = __commonJS({
                   const type = fileType(direntItem);
                   if (type === "symlink" && options.symlinks === "follow") {
                     whenConcurrencySlotAvailable(() => {
-                      fs2.stat(fileItemPath, (err2, symlinkPointsTo) => {
+                      fs3.stat(fileItemPath, (err2, symlinkPointsTo) => {
                         if (err2) {
                           doneCallback(err2);
                         } else {
@@ -6338,7 +6338,7 @@ var require_inspect_tree = __commonJS({
 var require_exists = __commonJS({
   "node_modules/fs-jetpack/lib/exists.js"(exports) {
     "use strict";
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var validate = require_validate2();
     var validateInput = (methodName, path2) => {
       const methodSignature = `${methodName}(path)`;
@@ -6346,7 +6346,7 @@ var require_exists = __commonJS({
     };
     var existsSync = (path2) => {
       try {
-        const stat2 = fs2.statSync(path2);
+        const stat2 = fs3.statSync(path2);
         if (stat2.isDirectory()) {
           return "dir";
         } else if (stat2.isFile()) {
@@ -6362,7 +6362,7 @@ var require_exists = __commonJS({
     };
     var existsAsync = (path2) => {
       return new Promise((resolve, reject) => {
-        fs2.stat(path2).then((stat2) => {
+        fs3.stat(path2).then((stat2) => {
           if (stat2.isDirectory()) {
             resolve("dir");
           } else if (stat2.isFile()) {
@@ -6390,7 +6390,7 @@ var require_copy = __commonJS({
   "node_modules/fs-jetpack/lib/copy.js"(exports) {
     "use strict";
     var pathUtil = require("path");
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var dir = require_dir();
     var exists = require_exists();
     var inspect = require_inspect();
@@ -6464,15 +6464,15 @@ var require_copy = __commonJS({
       return context.opts.overwrite === true;
     };
     var copyFileSync = (srcPath, destPath, mode, context) => {
-      const data = fs2.readFileSync(srcPath);
+      const data = fs3.readFileSync(srcPath);
       try {
-        fs2.writeFileSync(destPath, data, { mode, flag: "wx" });
+        fs3.writeFileSync(destPath, data, { mode, flag: "wx" });
       } catch (err) {
         if (err.code === "ENOENT") {
           write.sync(destPath, data, { mode });
         } else if (err.code === "EEXIST") {
           if (canOverwriteItSync(context)) {
-            fs2.writeFileSync(destPath, data, { mode });
+            fs3.writeFileSync(destPath, data, { mode });
           } else if (shouldThrowDestinationExistsError(context)) {
             throw generateDestinationExistsError(context.destPath);
           }
@@ -6482,13 +6482,13 @@ var require_copy = __commonJS({
       }
     };
     var copySymlinkSync = (from, to) => {
-      const symlinkPointsAt = fs2.readlinkSync(from);
+      const symlinkPointsAt = fs3.readlinkSync(from);
       try {
-        fs2.symlinkSync(symlinkPointsAt, to);
+        fs3.symlinkSync(symlinkPointsAt, to);
       } catch (err) {
         if (err.code === "EEXIST") {
-          fs2.unlinkSync(to);
-          fs2.symlinkSync(symlinkPointsAt, to);
+          fs3.unlinkSync(to);
+          fs3.symlinkSync(symlinkPointsAt, to);
         } else {
           throw err;
         }
@@ -6549,8 +6549,8 @@ var require_copy = __commonJS({
         if (runOpts.overwrite) {
           flags = "w";
         }
-        const readStream = fs2.createReadStream(srcPath);
-        const writeStream = fs2.createWriteStream(destPath, { mode, flags });
+        const readStream = fs3.createReadStream(srcPath);
+        const writeStream = fs3.createWriteStream(destPath, { mode, flags });
         readStream.on("error", reject);
         writeStream.on("error", (err) => {
           readStream.resume();
@@ -6582,12 +6582,12 @@ var require_copy = __commonJS({
       });
     };
     var copySymlinkAsync = (from, to) => {
-      return fs2.readlink(from).then((symlinkPointsAt) => {
+      return fs3.readlink(from).then((symlinkPointsAt) => {
         return new Promise((resolve, reject) => {
-          fs2.symlink(symlinkPointsAt, to).then(resolve).catch((err) => {
+          fs3.symlink(symlinkPointsAt, to).then(resolve).catch((err) => {
             if (err.code === "EEXIST") {
-              fs2.unlink(to).then(() => {
-                return fs2.symlink(symlinkPointsAt, to);
+              fs3.unlink(to).then(() => {
+                return fs3.symlink(symlinkPointsAt, to);
               }).then(resolve, reject);
             } else {
               reject(err);
@@ -6657,7 +6657,7 @@ var require_move = __commonJS({
   "node_modules/fs-jetpack/lib/move.js"(exports) {
     "use strict";
     var pathUtil = require("path");
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var validate = require_validate2();
     var copy = require_copy();
     var dir = require_dir();
@@ -6691,11 +6691,11 @@ var require_move = __commonJS({
         throw generateDestinationExistsError(to);
       }
       try {
-        fs2.renameSync(from, to);
+        fs3.renameSync(from, to);
       } catch (err) {
         if (err.code === "EISDIR" || err.code === "EPERM") {
           remove.sync(to);
-          fs2.renameSync(from, to);
+          fs3.renameSync(from, to);
         } else if (err.code === "EXDEV") {
           copy.sync(from, to, { overwrite: true });
           remove.sync(from);
@@ -6704,7 +6704,7 @@ var require_move = __commonJS({
             throw generateSourceDoesntExistError(from);
           }
           dir.createSync(pathUtil.dirname(to));
-          fs2.renameSync(from, to);
+          fs3.renameSync(from, to);
         } else {
           throw err;
         }
@@ -6729,9 +6729,9 @@ var require_move = __commonJS({
           if (destinationExists !== false && opts.overwrite !== true) {
             reject(generateDestinationExistsError(to));
           } else {
-            fs2.rename(from, to).then(resolve).catch((err) => {
+            fs3.rename(from, to).then(resolve).catch((err) => {
               if (err.code === "EISDIR" || err.code === "EPERM") {
-                remove.async(to).then(() => fs2.rename(from, to)).then(resolve, reject);
+                remove.async(to).then(() => fs3.rename(from, to)).then(resolve, reject);
               } else if (err.code === "EXDEV") {
                 copy.async(from, to, { overwrite: true }).then(() => remove.async(from)).then(resolve, reject);
               } else if (err.code === "ENOENT") {
@@ -6740,7 +6740,7 @@ var require_move = __commonJS({
                     reject(generateSourceDoesntExistError(from));
                   } else {
                     ensureDestinationPathExistsAsync(to).then(() => {
-                      return fs2.rename(from, to);
+                      return fs3.rename(from, to);
                     }).then(resolve, reject);
                   }
                 }).catch(reject);
@@ -6762,7 +6762,7 @@ var require_move = __commonJS({
 var require_read = __commonJS({
   "node_modules/fs-jetpack/lib/read.js"(exports) {
     "use strict";
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var validate = require_validate2();
     var supportedReturnAs = ["utf8", "buffer", "json", "jsonWithDates"];
     var validateInput = (methodName, path2, returnAs) => {
@@ -6804,7 +6804,7 @@ var require_read = __commonJS({
         encoding = null;
       }
       try {
-        data = fs2.readFileSync(path2, { encoding });
+        data = fs3.readFileSync(path2, { encoding });
       } catch (err) {
         if (err.code === "ENOENT") {
           return void 0;
@@ -6829,7 +6829,7 @@ var require_read = __commonJS({
         if (retAs === "buffer") {
           encoding = null;
         }
-        fs2.readFile(path2, { encoding }).then((data) => {
+        fs3.readFile(path2, { encoding }).then((data) => {
           try {
             if (retAs === "json") {
               resolve(JSON.parse(data));
@@ -6895,7 +6895,7 @@ var require_symlink = __commonJS({
   "node_modules/fs-jetpack/lib/symlink.js"(exports) {
     "use strict";
     var pathUtil = require("path");
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var validate = require_validate2();
     var dir = require_dir();
     var validateInput = (methodName, symlinkValue, path2) => {
@@ -6905,11 +6905,11 @@ var require_symlink = __commonJS({
     };
     var symlinkSync = (symlinkValue, path2) => {
       try {
-        fs2.symlinkSync(symlinkValue, path2);
+        fs3.symlinkSync(symlinkValue, path2);
       } catch (err) {
         if (err.code === "ENOENT") {
           dir.createSync(pathUtil.dirname(path2));
-          fs2.symlinkSync(symlinkValue, path2);
+          fs3.symlinkSync(symlinkValue, path2);
         } else {
           throw err;
         }
@@ -6917,10 +6917,10 @@ var require_symlink = __commonJS({
     };
     var symlinkAsync = (symlinkValue, path2) => {
       return new Promise((resolve, reject) => {
-        fs2.symlink(symlinkValue, path2).then(resolve).catch((err) => {
+        fs3.symlink(symlinkValue, path2).then(resolve).catch((err) => {
           if (err.code === "ENOENT") {
             dir.createAsync(pathUtil.dirname(path2)).then(() => {
-              return fs2.symlink(symlinkValue, path2);
+              return fs3.symlink(symlinkValue, path2);
             }).then(resolve, reject);
           } else {
             reject(err);
@@ -6938,9 +6938,9 @@ var require_symlink = __commonJS({
 var require_streams = __commonJS({
   "node_modules/fs-jetpack/lib/streams.js"(exports) {
     "use strict";
-    var fs2 = require("fs");
-    exports.createWriteStream = fs2.createWriteStream;
-    exports.createReadStream = fs2.createReadStream;
+    var fs3 = require("fs");
+    exports.createWriteStream = fs3.createWriteStream;
+    exports.createReadStream = fs3.createReadStream;
   }
 });
 
@@ -6952,7 +6952,7 @@ var require_tmp_dir = __commonJS({
     var os = require("os");
     var crypto = require("crypto");
     var dir = require_dir();
-    var fs2 = require_fs();
+    var fs3 = require_fs();
     var validate = require_validate2();
     var validateInput = (methodName, options) => {
       const methodSignature = `${methodName}([options])`;
@@ -6985,7 +6985,7 @@ var require_tmp_dir = __commonJS({
         options.prefix + randomString
       );
       try {
-        fs2.mkdirSync(dirPath);
+        fs3.mkdirSync(dirPath);
       } catch (err) {
         if (err.code === "ENOENT") {
           dir.sync(dirPath);
@@ -7007,7 +7007,7 @@ var require_tmp_dir = __commonJS({
               options.basePath,
               options.prefix + randomString
             );
-            fs2.mkdir(dirPath, (err2) => {
+            fs3.mkdir(dirPath, (err2) => {
               if (err2) {
                 if (err2.code === "ENOENT") {
                   dir.async(dirPath).then(() => {
@@ -11611,6 +11611,7 @@ var init_multipart_parser = __esm({
 
 // src/main.ts
 var import_path = __toESM(require("path"));
+var fs2 = __toESM(require("fs/promises"));
 var core2 = __toESM(require_core());
 var import_fs_jetpack = __toESM(require_main());
 
@@ -12832,16 +12833,17 @@ async function run() {
     core2.info(`Sending sourcemap files to Raygun...`);
     const sourcemaps = import_fs_jetpack.default.find(config.folder, { matching: "*.js.map" });
     for (const sourcemap of sourcemaps) {
-      console.log(sourcemap);
       const formData = new URLSearchParams();
       formData.append(
         "url",
         `${config.base_url}/${import_path.default.parse(sourcemap).base}`
       );
-      formData.append("file", sourcemap);
+      const data = await fs2.readFile(sourcemap, { encoding: "utf8" });
+      core2.info("Data:" + data);
+      formData.append("file", data);
       core2.info("Formdata:" + formData);
       core2.info(
-        `Calling url: https://app.raygun.com/upload/${config.project_id}?authtoken=${config.token}`
+        `Calling url: https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`
       );
       const res = await fetch(
         `https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`,

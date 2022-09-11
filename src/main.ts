@@ -1,4 +1,5 @@
 import path from "path";
+import * as fs from "fs/promises";
 import * as core from "@actions/core";
 import jetpack from "fs-jetpack";
 import fetch from "node-fetch";
@@ -13,14 +14,17 @@ async function run(): Promise<void> {
     const sourcemaps = jetpack.find(config.folder!, { matching: "*.js.map" });
 
     for (const sourcemap of sourcemaps) {
-      console.log(sourcemap);
       const formData = new URLSearchParams();
 
       formData.append(
         "url",
         `${config.base_url}/${path.parse(sourcemap).base}`
       );
-      formData.append("file", sourcemap);
+
+      const data = await fs.readFile(sourcemap, { encoding: "utf8" });
+
+      core.info("Data:" + data);
+      formData.append("file", data);
 
       core.info("Formdata:" + formData);
 
