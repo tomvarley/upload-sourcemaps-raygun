@@ -22,10 +22,12 @@ async function run(): Promise<void> {
         `${config.base_url}/${path.parse(sourcemap).base}`
       );
 
-      const data = await fs.readFile(sourcemap, { encoding: "utf8" });
+      const fileStream = jetpack.createReadStream(sourcemap, {
+        encoding: "utf8",
+      });
 
       // core.info("Data:" + data);
-      formData.append("file", sourcemap);
+      formData.append("file", fileStream);
 
       core.info("Formdata:" + formData);
 
