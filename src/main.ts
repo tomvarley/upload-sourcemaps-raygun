@@ -1,5 +1,4 @@
 import path from "path";
-import * as fs from "fs/promises";
 import * as core from "@actions/core";
 import jetpack from "fs-jetpack";
 import fetch from "node-fetch";
@@ -17,23 +16,19 @@ async function run(): Promise<void> {
     for (const sourcemap of sourcemaps) {
       const formData = new FormData();
 
-      formData.append(
-        "url",
-        `${config.base_url}/${path.parse(sourcemap).base}`
-      );
-
+      const url = `${config.base_url}/${path.parse(sourcemap).base}`;
       const fileStream = jetpack.createReadStream(sourcemap, {
         encoding: "utf8",
       });
 
-      // core.info("Data:" + data);
+      formData.append("url", url);
       formData.append("file", fileStream);
 
-      core.info("Formdata:" + formData);
-
-      core.info(
+      core.debug(
         `Calling url: https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`
       );
+
+      core.info(`Sending sourcemap: ${sourcemap} with url ${url} to Raygun`);
 
       const res = await fetch(
         `https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`,
@@ -46,8 +41,6 @@ async function run(): Promise<void> {
         }
       );
 
-      core.info("Response:" + res);
-
       if (!res.ok) {
         throw new Error(
           `Sending failed with response: [${res.status}] ${res.statusText}`
@@ -55,12 +48,6 @@ async function run(): Promise<void> {
       }
     }
 
-    // try {
-    //   const dir = await opendir(config.folder!);
-    //   for await (const dirent of dir) console.log(dirent.name);
-    // } catch (err) {
-    //   console.error(err);
-    // }
   } catch (error) {
     if (error instanceof Error) {
       core.error(`Failed: ${error.message}`);

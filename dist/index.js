@@ -22255,18 +22255,16 @@ async function run() {
     const sourcemaps = import_fs_jetpack.default.find(config.folder, { matching: "*.js.map" });
     for (const sourcemap of sourcemaps) {
       const formData = new import_form_data.default();
-      formData.append(
-        "url",
-        `${config.base_url}/${import_path.default.parse(sourcemap).base}`
-      );
+      const url = `${config.base_url}/${import_path.default.parse(sourcemap).base}`;
       const fileStream = import_fs_jetpack.default.createReadStream(sourcemap, {
         encoding: "utf8"
       });
+      formData.append("url", url);
       formData.append("file", fileStream);
-      core2.info("Formdata:" + formData);
-      core2.info(
+      core2.debug(
         `Calling url: https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`
       );
+      core2.info(`Sending sourcemap: ${sourcemap} with url ${url} to Raygun`);
       const res = await fetch(
         `https://app.raygun.com/upload/jssymbols/${config.project_id}?authtoken=${config.token}`,
         {
@@ -22277,7 +22275,6 @@ async function run() {
           body: formData
         }
       );
-      core2.info("Response:" + res);
       if (!res.ok) {
         throw new Error(
           `Sending failed with response: [${res.status}] ${res.statusText}`
