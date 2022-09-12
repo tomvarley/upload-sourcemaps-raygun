@@ -22253,6 +22253,9 @@ async function run() {
     const config = getConfig();
     core2.info(`Sending sourcemap files to Raygun...`);
     const sourcemaps = import_fs_jetpack.default.find(config.folder, { matching: "*.js.map" });
+    if (sourcemaps.length === 0) {
+      core2.info(`No sourcemaps found in folder '${config.folder}'`);
+    }
     for (const sourcemap of sourcemaps) {
       const formData = new import_form_data.default();
       const url = `${config.base_url}/${import_path.default.parse(sourcemap).base}`;
