@@ -1,8 +1,8 @@
 {
-  "name": "await-local-workflow-run",
+  "name": "upload-sourcemaps-raygun",
   "version": "0.0.1",
   "private": true,
-  "description": "Await the completion of a local workflow run.",
+  "description": "Upload sourcemaps in a folder to Raygun",
   "author": "Tom Varley",
   "license": "MIT",
   "main": "lib/main.js",
