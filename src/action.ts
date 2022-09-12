@@ -36,21 +36,3 @@ export function getConfig(): ActionConfig {
     })(),
   };
 }
-
-function getNumberFromValue(value: string): number | undefined {
-  if (value === "") {
-    return undefined;
-  }
-
-  try {
-    const num = parseInt(value);
-
-    if (isNaN(num)) {
-      throw new Error("Parsed value is NaN");
-    }
-
-    return num;
-  } catch {
-    throw new Error(`Unable to parse value: ${value}`);
-  }
-}

@@ -13,6 +13,10 @@ async function run(): Promise<void> {
 
     const sourcemaps = jetpack.find(config.folder!, { matching: "*.js.map" });
 
+    if (sourcemaps.length === 0) {
+      core.info(`No sourcemaps found in folder '${config.folder}'`);
+    }
+
     for (const sourcemap of sourcemaps) {
       const formData = new FormData();
 

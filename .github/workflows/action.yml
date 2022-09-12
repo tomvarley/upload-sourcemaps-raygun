@@ -1,7 +1,17 @@
 name: Action Test
 on:
-  pull_request:
-  push:
+  workflow_dispatch:
+    inputs:
+      token:
+        description: Raygun token
+        required: true
+      project_id:
+        description: Project id in Raygun to use
+        required: true
+      base_url:
+        description: Base url of sourcemap
+        required: true
+
 
 jobs:
   test-run:
@@ -11,7 +21,7 @@ jobs:
       - name: Send things
         uses: ./
         with:
-          token: gQYKfqisxIOjdjTG79kRtKvb1n79Ftem
-          project_id: 28szluv
-          base_url: https://www.woo.com
+          token: ${{github.event.inputs.token}}
+          project_id: ${{github.event.inputs.project_id}}
+          base_url: ${{github.event.inputs.base_url}}
 
