@@ -20,11 +20,7 @@ async function run(): Promise<void> {
     for (const sourcemap of sourcemaps) {
       const formData = new FormData();
 
-      const baseUrl = config.base_url.endsWith("/")
-        ? config.base_url.slice(0, -1)
-        : config.base_url;
-
-      const url = `${baseUrl}/${path.parse(sourcemap).base}`;
+      const url = `${config.base_url}/${path.parse(sourcemap).base}`;
       const fileStream = jetpack.createReadStream(sourcemap, {
         encoding: "utf8",
       });

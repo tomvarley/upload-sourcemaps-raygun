@@ -50,5 +50,12 @@ describe("Action", () => {
 
       expect(config.folder).toStrictEqual("./");
     });
+
+    it("should trim trailing slash from url if user sends one", () => {
+      mockEnvConfig.base_url = "https://www.testwithslash.com/";
+      const config: ActionConfig = getConfig();
+
+      expect(config.base_url).toStrictEqual("https://www.testwithslash.com");
+    });
   });
 });
