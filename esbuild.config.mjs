@@ -5,7 +5,7 @@ import { analyzeMetafile, build } from "esbuild";
   try {
     const startTime = Date.now();
     console.info(
-      chalk.bold(`🚀 ${chalk.blueBright("await-local-workflow-run")} Build\n`)
+      chalk.bold(`🚀 ${chalk.blueBright("upload-sourcemaps-raygun")} Build\n`)
     );
 
     const result = await build({
