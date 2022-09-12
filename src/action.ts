@@ -5,17 +5,22 @@ import * as core from "@actions/core";
  */
 export interface ActionConfig {
   /**
-   * GitHub API token for making requests.
+   * Raygun API token for making requests.
    */
   token: string;
 
   /**
-   * The workflow that you wish to await completion of.
+   * The base url of the sourcemap that is being uploaded
    */
   base_url: string;
 
   /**
-   * A specific check within the workflow to wait for. Await all checks if this is not specified.
+   * Project id in raygun to upload sourcemaps
+   */
+  project_id: string;
+
+  /**
+   * Folder to recursively look for sourcemaps
    */
   folder?: string;
 }
@@ -24,6 +29,7 @@ export function getConfig(): ActionConfig {
   return {
     token: core.getInput("token", { required: true }),
     base_url: core.getInput("base_url", { required: true }),
+    project_id: core.getInput("project_id", { required: true }),
     folder: (() => {
       const input = core.getInput("folder");
       return input === "" ? "./" : input;

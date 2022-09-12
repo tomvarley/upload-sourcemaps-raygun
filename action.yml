@@ -10,7 +10,10 @@ inputs:
     required: true
   base_url:
     required: true
-    description: The filename of the workflow that you wish to await completion of.
+    description: The base url of the sourcemap you would like to associate the file with
+  project_id:
+    required: true
+    description:
   folder:
     description: Target folder to check for sourcemaps
     default: './'

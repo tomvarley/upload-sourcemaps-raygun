@@ -11,6 +11,7 @@ jobs:
       - name: Send things
         uses: ./
         with:
-          token: asdasd
+          token: gQYKfqisxIOjdjTG79kRtKvb1n79Ftem
+          project_id: 28szluv
           base_url: https://www.woo.com
 
