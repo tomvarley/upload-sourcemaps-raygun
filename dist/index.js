@@ -22238,13 +22238,16 @@ var core = __toESM(require_core());
 function getConfig() {
   return {
     token: core.getInput("token", { required: true }),
-    base_url: core.getInput("base_url", { required: true }),
+    base_url: trimTrailingSlash(core.getInput("base_url", { required: true })),
     project_id: core.getInput("project_id", { required: true }),
     folder: (() => {
       const input = core.getInput("folder");
       return input === "" ? "./" : input;
     })()
   };
+}
+function trimTrailingSlash(url) {
+  return url.endsWith("/") ? url.slice(0, -1) : url;
 }
 
 // src/main.ts
