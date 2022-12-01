@@ -30,7 +30,7 @@
     "@octokit/webhooks-types": "^6.3.6",
     "form-data": "^4.0.0",
     "fs-jetpack": "^4.3.1",
-    "node-fetch": "^3.2.10"
+    "node-fetch": "^3.3.0"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
