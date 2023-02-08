@@ -45,11 +45,14 @@ async function run(): Promise<void> {
         }
       );
 
+      core.debug(`Raw response: ${res}`);
+
       if (!res.ok) {
         throw new Error(
           `Sending failed with response: [${res.status}] ${res.statusText}`
         );
       }
+      core.debug(`Response json: ${await res.json()}`);
     }
   } catch (error) {
     if (error instanceof Error) {
