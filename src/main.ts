@@ -21,9 +21,7 @@ async function run(): Promise<void> {
       const formData = new FormData();
 
       const url = `${config.base_url}/${path.parse(sourcemap).base}`;
-      const fileStream = jetpack.createReadStream(sourcemap, {
-        encoding: "utf8",
-      });
+      const fileStream = jetpack.createReadStream(sourcemap);
 
       formData.append("url", url);
       formData.append("file", fileStream);

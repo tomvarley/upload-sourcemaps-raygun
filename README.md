@@ -4,6 +4,9 @@
 
 Github action to take sourcemaps generated as part of the build process and upload them to Raygun, using the process documented here: https://raygun.com/documentation/product-guides/crash-reporting/sourcemaps/#uploading-javascript-files.
 
+Source maps are streamed as binary data to preserve file bytes and avoid UTF-8
+streaming stalls on affected Node.js runtimes.
+
 ## Usage
 
 ```yaml
